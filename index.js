@@ -27,8 +27,6 @@ const expressListener = async () => {
         throw new Error('>> Connection error')
     }
 
-
-
 }
 
 expressListener();
