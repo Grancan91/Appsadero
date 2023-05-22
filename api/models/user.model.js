@@ -2,7 +2,11 @@ const sequelize = require('../../db/index')
 const {DataTypes} = require('sequelize')
 
 const User = sequelize.define('user', {
-    name:{
+    first_name:{
+        type:DataTypes.STRING,
+        allowNull:false
+    },
+    last_name:{
         type:DataTypes.STRING,
         allowNull:false
     },
@@ -15,13 +19,10 @@ const User = sequelize.define('user', {
         type:DataTypes.STRING,
         allowNull:false,
         validate:{
-            len:[6]
+            //is: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+            //validation: pass with at least 8 char: 1 caracter especial, 1minusula, 1 mayus
         }
     }
-
-
-
-
 })
 
 
