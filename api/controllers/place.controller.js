@@ -11,14 +11,14 @@ const getAllPlaces = async (req, res) => {
 } 
 
 
-/* const createPlace = async (req, res) => {
+ const createPlace = async (req, res) => {
     try {
         const place = await Place.create(req.body)
         return res.status(200).json('>> Place created!')
     } catch (error) {
         return res.status(500).send(">> Oops something went wrong.")
     }
-} */
+} 
 
 const getOnePlace = async (req, res) => {
     try {

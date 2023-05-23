@@ -23,4 +23,4 @@ const Place = sequelize.define("place", {
   },
 });
 
-module.exports = Places;
+module.exports = Place;
