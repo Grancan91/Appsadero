@@ -1,11 +1,11 @@
 const router = require("express").Router();
-const {getAllProfiles, getOneProfile, updateProfile, deleteProfile} = require("../controllers/place.controller");
-const { checkAuth, checkId } = require("../middleware/auth");
+const { getAllPlaces, getOnePlace, createPlace, updatePlace, deletePlace} = require("../controllers/place.controller");
+const { checkAuth, checkId, checkAdmin } = require("../middleware/auth");
 
-router.get("/", checkAuth, getAllProfiles);
-router.get("/:email", checkAuth, getOneProfile);
-//router.post("/", checkAdmin, createNewUser); TAREA DEL ADMIN!!! ********************
-router.put("/:userId", checkAuth, checkId, updateProfile);
-router.delete("/:userId", checkAuth, checkId, deleteProfile);
+router.get("/", checkAuth, getAllPlaces);
+router.get("/:placeId", checkAuth, getOnePlace);
+//router.post("/", checkAdmin, createPlace); TAREA DEL ADMIN!!! ********************
+router.put("/:placeId", checkAdmin, updatePlace);
+router.delete("/:placeId", checkAdmin, deletePlace);
 
 module.exports = router;

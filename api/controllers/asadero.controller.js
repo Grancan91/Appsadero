@@ -10,6 +10,14 @@ const Asadero = require('../models/asadero.model')
   }
 } 
 
+const getOneAsadero = async (req, res) => {
+    try {
+        const asadero = await Asadero.findByPk(req.params.asaderoId);
+        return res.status(200).json(asadero);
+    } catch {
+        return res.status(400).send(">> This asadero isn't in our Database");
+    }
+};
 
 const createAsadero = async (req, res) => {
     try{
@@ -28,27 +36,6 @@ const createAsadero = async (req, res) => {
     }
 }
 
-const getOneAsadero = async (req, res) => {
-  try {
-    const asadero = await Asadero.findByPk(req.params.asaderoId);
-    return res.status(200).json(asadero);
-  } catch {
-    return res.status(400).send(">> This asadero isn't in our Database");
-  }
-};
-
-
-
-const deleteAsadero = async (req, res) => {
-    try{
-        const asadero =  await Asadero.destroy({ where: {id: req.params.userId}} )
-        return res.status(200).send("Asadero Deleted")
-    } catch (err) {
-        res.status(400).send("Asadero has not been deleted")
-    }
-}
-
-
 const updateAsadero = async (req, res) => {
     try {
         const [asaderoExist, asadero] = await Asadero.update(req.body, {
@@ -66,6 +53,16 @@ const updateAsadero = async (req, res) => {
         return res.status(500).send("Error to udpate asadero");
     }
 }
+
+const deleteAsadero = async (req, res) => {
+    try{
+        const asadero =  await Asadero.destroy({ where: {id: req.params.userId}} )
+        return res.status(200).send("Asadero Deleted")
+    } catch (err) {
+        res.status(400).send("Asadero has not been deleted")
+    }
+}
+
 
 module.exports = {
   getAllAsaderos,
