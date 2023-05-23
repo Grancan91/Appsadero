@@ -1,6 +1,12 @@
 const router = require("express").Router()
-const { createProduct } = require("../controllers/product.controller")
+const { createProduct, getOneProduct, getAllProducts, updateProduct, deleteProduct } = require("../controllers/product.controller")
+const { getAllProfiles } = require("../controllers/user.controller")
+const { checkAuth } = require("../middleware/auth")
 
-router.use("/", createProduct)
+router.post("/", checkAuth, createProduct)
+router.get("/:productId", checkAuth, getOneProduct)
+router.get("/", checkAuth, getAllProducts)
+router.put("/:productId", checkAuth, updateProduct)
+router.delete("/:productId", checkAuth, deleteProduct)
 
 module.exports = router
