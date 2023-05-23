@@ -12,10 +12,10 @@ const signUp = async (req, res) => {
         const token = jwt.sign({email: user.email}, process.env.JWT_SECRET, {expiresIn: '1y'})
 
         //delete user.password;
-        res.status(200).json({token});
+        return res.status(200).json({token});
 
     } catch (error) {
-        res.status(500).send(">> Oops something went wrong, we could not sign you up.")
+        return res.status(500).send(">> Oops something went wrong, we could not sign you up.")
 /*         console.error('>> Error signing up :(')
  */    }
 }
@@ -31,14 +31,14 @@ const logIn = async(req, res) => {
                     const token = jwt.sign({email: user.email}, process.env.JWT_SECRET, {expiresIn: '1y'})
                     res.status(200).json({token});
                 }
-                res.status(400).send(">> Oops something went wrong, user or password incorrect.")
+                return res.status(400).send(">> Oops something went wrong, user or password incorrect.")
             })
         }else{
-            res.status(400).send(">> Oops something went wrong, user or password incorrect.")
+            return res.status(400).send(">> Oops something went wrong, user or password incorrect.")
         }
         
     }catch(error) {
-        res.status(400).send(">> Oops something went wrong, user or password incorrect.")
+        return res.status(400).send(">> Oops something went wrong, user or password incorrect.")
     }
 }
 
