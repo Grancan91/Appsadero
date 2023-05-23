@@ -1,5 +1,5 @@
 const sequelize = require("../../db")
-const {DataTypes, DATE} = require("sequelize")
+const {DataTypes} = require("sequelize")
 
 const Product = sequelize.define("product", {
     name: {

@@ -1,6 +1,5 @@
 const router = require("express").Router()
 const { createProduct, getOneProduct, getAllProducts, updateProduct, deleteProduct } = require("../controllers/product.controller")
-const { getAllProfiles } = require("../controllers/user.controller")
 const { checkAuth } = require("../middleware/auth")
 
 router.post("/", checkAuth, createProduct)
