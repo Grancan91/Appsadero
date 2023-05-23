@@ -14,9 +14,17 @@ const createProduct = async (req, res) => {
     }
 }
 
+const getOneProduct = async (req, res) => {
+    const product = Product.findOne({ where: {name: req.params.name}})
+    return res.status(200).json(product)
+}
+
+//const updateProduct = await Product.
+
 
 
 
 module.exports = {
-    createProduct
+    createProduct,
+    getOneProduct
 }
