@@ -5,29 +5,39 @@ const User = require('../models/user.model')
 
 
 const checkAuth = (req, res, next) => {
-
-    jwt.verify(req.header.token, process.env.JWT_SECRET, async (error, result) => {
+    jwt.verify(req.headers.token, process.env.JWT_SECRET, async (error, result) => {
         if(error){
-            return res.status(403).send('>> Token not valid!')
+            return res.status(403).send('>> Token not valid 1!')
         }
         const user = await User.findOne({ where: {email: result.email} })
 
         if(!user){
-            return res.status(403).send('>> Token not valid!')
+            return res.status(403).send('>> Token not valid 2!')
         }
-        
         res.locals.user = user
-        next();
 
+
+        next();
     })
 }
 
 const checkAdmin = (req, res, next) => {
-    if (res.local.user.role != "admin") {
+    if (res.locals.user.role != "admin") {
       return res.status(500).send(">> You are not authorized to access this resource");
     }
     next();
 }
 
+const checkId = async (req, res, next) => {
+       
+    await (() => {
+        if(parseInt(req.params.userId) === res.locals.user.id){
+            next()
+        
+        } else {
+            res.status(500).send("Adonde vas chiquito chichon, que este no es tu usuario")
+        }
+    })()
+}
 
-module.exports = { checkAuth, checkAdmin };
+module.exports = { checkAuth, checkAdmin, checkId };

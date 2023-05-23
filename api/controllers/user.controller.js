@@ -43,11 +43,11 @@ const updateUser = async (req, res) => {
     const [userExist, user] = await User.update(req.body, {
       returning: true,
       where: {
-        id: req.params.id,
+        id: req.params.userId,
       },
     });
     if (userExist !== 0) {
-      return res.status(200).json({ message: "User updated", user: user });
+      return res.status(200).json({ message: "User updated", fields_updated: user });
     } else {
       return res.status(404).send("User not found");
     }
