@@ -12,7 +12,7 @@ const dbConection = async () => {
         await sequelize.authenticate()
         console.log('>> Connection has been established successfully')
         initRelationships()
-        await sequelize.sync() //  {force: true}
+        await sequelize.sync() //  {force: true} {alter: true}
         console.log('>> Models synchronized')
     } catch (error) {
         console.log(error)
