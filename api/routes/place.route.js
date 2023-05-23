@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { getAllPlaces, getOnePlace, createPlace, updatePlace, deletePlace} = require("../controllers/place.controller");
-const { checkAuth, checkId, checkAdmin } = require("../middleware/auth");
+const { checkAuth, checkAdmin } = require("../middleware/auth");
 
 router.get("/", checkAuth, getAllPlaces);
 router.get("/:placeId", checkAuth, getOnePlace);
