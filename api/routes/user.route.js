@@ -1,3 +1,4 @@
-const router = require('./api/routes/index')
-
+const router = require("express").Router();
 //router.get
+
+module.exports = router;

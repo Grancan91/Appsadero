@@ -1,7 +1,9 @@
 const router = require('express').Router()
 
-router.use('/', () => console.log('a ver si es verdad'))
+const authRouter = require('./auth.route');
 
+router.use('/', () => console.log('a ver si es verdad'))
+router.use("/auth", authRouter);
 
 
 

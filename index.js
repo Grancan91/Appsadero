@@ -22,6 +22,7 @@ const dbConection = async () => {
 const expressListener = async () => {
     try {
         app.use('/api', router)
+        app.use(express.json())
         await app.listen(process.env.PORT)
         console.log('>> Appsadero is running!')
         await dbConection();
