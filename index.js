@@ -10,7 +10,7 @@ const dbConection = async () => {
     try {
         await sequelize.authenticate()
         console.log('>> Connection has been established successfully')
-        sequelize.sync({force: true}) //  {force: true}
+        sequelize.sync() //  {force: true}
         console.log('>> Models synchronized')
     } catch (error) {
         console.log(error)
@@ -21,8 +21,8 @@ const dbConection = async () => {
 
 const expressListener = async () => {
     try {
-        app.use('/api', router)
         app.use(express.json())
+        app.use('/api', router)
         await app.listen(process.env.PORT)
         console.log('>> Appsadero is running!')
         await dbConection();
