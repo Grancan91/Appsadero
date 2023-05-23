@@ -1,26 +1,26 @@
 const User = require('../models/user.model');
 
-const getAllUsers = async (req, res) =>  {
-    try {
-        const user = User.findAll()
-        return res.status(200).json(user);   
-        
-    } catch (error) {
-        return res.status(500).send(">> Oops something went wrong.")
-    }
+const getAllProfiles = async (req, res) =>  {
+  try {
+    const user = await User.findAll()
+    return res.status(200).json(user)
+  } catch (error) {
+    return res.status(500).send(">> Oops something went wrong.")
+  }
 }
 
 
-const getOneUser = async (req, res) =>  {
+const getOneProfile = async (req, res) =>  {
     try{
-        const user = await User.findOne({ where: {id: req.params.userId} })
-        return res.status(200).json(user)
+        const user = await User.findOne({ where: {email: req.params.email} })
+        delete user.password
+        return res.status(200).json({Name: user.first_name})
     }catch{
         return  res.status(400).send(">> This user isn't in our Database");
     }
  }
 
-const createNewUser = async (req, res) => {
+const createNewProfile = async (req, res) => {
     try {
         const user = await User.create({
             first_name: req.body.first_name,
@@ -38,7 +38,7 @@ const createNewUser = async (req, res) => {
     
 }
 
-const updateUser = async (req, res) => {
+const updateProfile = async (req, res) => {
   try {
     const [userExist, user] = await User.update(req.body, {
       returning: true,
@@ -56,22 +56,20 @@ const updateUser = async (req, res) => {
   }
 };
 
-const deleteUser = async(req, res) => {
+const deleteProfile = async(req, res) => {
   try {
     const user = await User.destroy({ where: { id: req.params.userId } });
     return res.status(200).json("User deleted")
   }catch{
     return res.status(500).send("Error to udpate user")
-
   }
 }
 
 
-
 module.exports = {
-      getAllUsers,
-      getOneUser,
-      createNewUser,
-      updateUser,
-      deleteUser,
+  getAllProfiles,
+  getOneProfile,
+  createNewProfile,
+  updateProfile,
+  deleteProfile,
 };
