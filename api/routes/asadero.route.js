@@ -6,6 +6,6 @@ router.get("/:asaderoId", getOneAsadero);
 router.post('/', createAsadero)
 router.put('/:asaderoId', updateAsadero)
 router.delete('/:asaderoId', deleteAsadero)
-router
+
 
 module.exports = router;
