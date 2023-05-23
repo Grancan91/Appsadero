@@ -1,3 +1,4 @@
+
 const User = require('../models/user.model');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
@@ -6,7 +7,10 @@ const jwt = require('jsonwebtoken');
 const signUp = async (req, res) => {
     try {
         req.body.password = bcrypt.hashSync(req.body.password, process.env.SALT_ROUNDS);
-        const user = await User.create(req.body)
+/*         const {first_name, last_name, email, password} = req.body
+ */        const user = await User.create(req.body)
+        console.log(user)
+
 
         //REMEMBER CHANGE EXPIRATES SESSION 
         const token = jwt.sign({email: user.email}, process.env.JWT_SECRET, {expiresIn: '1y'})
@@ -15,9 +19,9 @@ const signUp = async (req, res) => {
         return res.status(200).json({token});
 
     } catch (error) {
+        console.log(error)
         return res.status(500).send(">> Oops something went wrong, we could not sign you up.")
-/*         console.error('>> Error signing up :(')
- */    }
+    }
 }
 
 const logIn = async(req, res) => {
