@@ -3,22 +3,22 @@ const Place = require('../models/place.model')
 
 const getAllPlaces = async (req, res) => {
     try {
-        const places = await Places.findAll();
+        const places = await Place.findAll();
         return res.status(200).json(places);
     } catch (error) {
         return res.status(500).send(">> Oops something went wrong.");
     }
-} 
+}
 
 
- const createPlace = async (req, res) => {
+const createPlace = async (req, res) => {
     try {
         const place = await Place.create(req.body)
         return res.status(200).json('>> Place created!')
     } catch (error) {
         return res.status(500).send(">> Oops something went wrong.")
     }
-} 
+}
 
 const getOnePlace = async (req, res) => {
     try {
@@ -31,14 +31,14 @@ const getOnePlace = async (req, res) => {
 
 const updatePlace = async (req, res) => {
     try {
-        const [PlaceExist, place] = await Place.update(req.body, {
+        const [placeExist, place] = await Place.update(req.body, {
             returning: true,
             where: {
-                id: req.params.asaderoId,
+                id: req.params.placeId,
             },
         });
         if (placeExist !== 0) {
-            return res.status(200).json({ message: ">> Place updated", fields_updated: pkace });
+            return res.status(200).json({ message: ">> Place updated", fields_updated: allergy });
         } else {
             return res.status(404).send(">> Oops! Place not found");
         }
@@ -59,7 +59,7 @@ const deletePlace = async (req, res) => {
 
 module.exports = {
     getAllPlaces,
-    getOnePlace, 
+    getOnePlace,
     createPlace,
     deletePlace,
     updatePlace
