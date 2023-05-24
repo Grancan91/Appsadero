@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Asadero = require("../models/asadero.model")
 
 const getAllProfiles = async (req, res) =>  {
   try {
@@ -47,6 +48,22 @@ const deleteProfile = async(req, res) => {
     return res.status(500).send("Error to udpate user")
   }
 }
+
+async function getEagerUserAsadero(req, res) {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.userId
+      },
+      include: Asadero
+    });
+    return res.status(200).json(user)
+
+  } catch (error) {
+    return res.status(500).send("No fufa")
+  }
+}
+
 
 /* const getAllFriends = async (req, res) {
 
@@ -122,6 +139,6 @@ module.exports = {
   updateProfile,
   deleteProfile,
   addFriends,
-  deleteFriend
-  
+  deleteFriend,
+  getEagerUserAsadero
 };
