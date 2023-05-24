@@ -18,6 +18,19 @@ const createProduct = async (req, res) => {
     }
 }
 
+
+const bulkCreateProduct = async (req, res) => {
+    try {
+        const products = await Product.bulkCreate(req.body)
+        if(products){
+            return res.status(200).json('>> Products created.')
+        }
+    } catch (error) {
+        return res.status(404).send(">> Oops something went wrong.")
+    }
+}
+
+
 const getOneProduct = async (req, res) => {
     try{
         const product = await Product.findOne({ where: {id: req.params.productId}})
@@ -73,5 +86,6 @@ module.exports = {
     getOneProduct,
     getAllProducts,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    bulkCreateProduct
 }
