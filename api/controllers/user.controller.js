@@ -48,7 +48,7 @@ const deleteProfile = async(req, res) => {
   }
 }
 
-
+//ejemplo
 module.exports = {
   getAllProfiles,
   getOneProfile,
