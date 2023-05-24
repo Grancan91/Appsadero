@@ -5,6 +5,7 @@ const Preference = require('../api/models/preference.model')
 const Product = require('../api/models/product.model')
 const Cart = require('../api/models/cart.model')
 const Allergy = require('../api/models/allergy.model')
+const Product_Cart = require('../api/models/products_carts.model')
 
 const initRelationships = () => {
 
@@ -36,8 +37,8 @@ const initRelationships = () => {
     Cart.belongsTo(Asadero)
 
     //Products -> Cart
-    Product.belongsToMany(Cart, { through: 'products_carts' })
-    Cart.belongsToMany(Product, { through: 'products_carts' })
+    Product.belongsToMany(Cart, { through: Product_Cart })
+    Cart.belongsToMany(Product, { through: Product_Cart })
 
     //Asadero -> Places
     Asadero.hasMany(Place)

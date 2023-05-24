@@ -1,13 +1,9 @@
 const Cart = require("../models/cart.model")
-const Product = require('../models/product.model')
 
 const createCart = async (req, res) => {
     try {
-      const cart = await Cart.create({
-        id: req.body.id,
-    })      
-      //console.log("Cart created")
-      return res.status(200).json(cart)
+      await Cart.create(req.body)      
+      return res.status(200).json('>> Cart created!')
     } catch (err) {
       return res.status(404).send(">> Oops something went wrong creating the cart.")
     }
@@ -27,6 +23,7 @@ const getAllCart = async (req, res) => {
     const cart = await Cart.findAll()
     return res.status(200).json(cart)
   }catch (err){
+    console.log(err)
     return res.status(400).send(">> Oops something went wrong.")
   }
 }
@@ -48,9 +45,9 @@ const updateCart = async (req, res) => {
     } catch (error) {
       return res.status(500).send("Error to udpate cart");
     }
-  };
+};
 
-  const deleteCart = async (req, res) => {
+const deleteCart = async (req, res) => {
     try{
         const cart =  await Cart.destroy({ where: {id: req.params.cartId}} )
         return res.status(200).send("Cart Deleted")
@@ -59,7 +56,6 @@ const updateCart = async (req, res) => {
     }
 }
 
-
 const addProductsToCart = async (req, res) => {
   try { 
     const cart = await Cart.findByPk(req.params.cartId)
@@ -67,10 +63,11 @@ const addProductsToCart = async (req, res) => {
     if (cart){
       return res.status(200).json(">> Products added to your shopping cart.")
     }else{
-      return res.status(400).send('>> Oops something went wrong.')
+      return res.status(400).send('>> Oops something went wrong1.')
     }
   } catch (error) {
-    return res.status(400).send(">> Oops something went wrong.")
+    console.log(error)
+    return res.status(400).send(">> Oops something went wrong2.")
   }
 }
 
@@ -82,11 +79,9 @@ const deleteProductFromCart = async (req, res) => {
       return res.status(200).json(">> Products deleted from your shopping cart.")
     }else{
       return res.status(400).send('>> Oops something went wrong.')
-      
     }
   } catch (error) {
     return res.status(400).send(">> Oops something went wrong.")
-
   }
 }
 

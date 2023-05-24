@@ -11,7 +11,7 @@ const Asadero = sequelize.define("asadero", {
     allowNull: false,
   },
   date_time: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
     validate: {
       isDate: true,
@@ -30,7 +30,7 @@ const Asadero = sequelize.define("asadero", {
     allowNull: true,
   },
   confirmation_date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
     validate: {
       isDate: true,

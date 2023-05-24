@@ -1,7 +1,8 @@
 const Asadero = require('../models/asadero.model')
 const User = require('../models/user.model')
+const Cart = require('../models/cart.model')
 
- const getAllAsaderos = async (req, res) => {
+const getAllAsaderos = async (req, res) => {
   try {
     const asadero = await Asadero.findAll();
     return res.status(200).json(asadero);
@@ -21,16 +22,13 @@ const getOneAsadero = async (req, res) => {
 
 const createAsadero = async (req, res) => {
     try{
-        const asadero = await Asadero.create({
-            name: req.body.name,
-            description: req.body.description,
-            date_time: req.body.date_time,
-            duration: req.body.duration,
-            price: req.body.price,
-            comments: req.body.comments,
-            confirmation_date: req.body.confirmation_date
-        })
-        return res.status(200).json('>> Asadero created!')
+        const asadero = await Asadero.create(req.body)
+        if(asadero){
+            await Cart.create({asaderoId: asadero.id})
+            return res.status(200).json('>> Asadero created!')
+        }else{
+            return res.status(400).send(">> Oops something went wrong.")
+        }
     }catch (error) {
         return res.status(500).send(">> Oops something went wrong.")
     }

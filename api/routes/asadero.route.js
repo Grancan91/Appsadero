@@ -3,10 +3,9 @@ const { getAllAsaderos, getOneAsadero, createAsadero, updateAsadero, deleteAsade
 const { checkAuth, checkAdmin } = require("../middleware/auth");
 
 
-router.get('/admin', checkAuth, checkAdmin, getAllAsaderos) //ROUTER ADMIN
+router.get('/admin', checkAuth, checkAdmin, getAllAsaderos) //ROUTE ADMIN
 router.get('/', checkAuth, getAllAsaderos) // reslocals.user
-
-router.get("/:asaderoId",  getOneAsadero);
+router.get("/:asaderoId",  getOneAsadero)
 router.post('/', checkAuth, createAsadero)
 router.put('/:asaderoId', updateAsadero) //Middlware isOwner
 router.delete('/:asaderoId', deleteAsadero) //Middlware isOwner

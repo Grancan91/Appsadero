@@ -4,23 +4,17 @@ const Allergy = require("../models/allergy.model")
 
 const createProduct = async (req, res) => {
     try {
-    const product = await Product.create({
-        name: req.body.name,
-        und: req.body.und,
-        price: req.body.und
-    })      
+        const product = await Product.create(req.body)      
 
-    //Add Allergy 
-    /*
-    if(req.body.allergy){
-        product.setAllergies(req.body.allergy)
-    }
-    */
-
-    console.log("Product created")
-    return res.status(200).json(product)
+        //Add Allergy 
+        /*
+        if(req.body.allergy){
+            product.setAllergies(req.body.allergy)
+        }
+        */
+        return res.status(200).json(`>> ${product.name} created.`)
     } catch (err) {
-    return res.status(404).send("Error: " + err)
+        return res.status(404).send(">> Oops something went wrong.")
     }
 }
 
@@ -53,7 +47,7 @@ const updateProduct = async (req, res) => {
         });
 
         if(productExist !== 0){
-            return res.status(200).json(`Updated ${req.body.name}`)
+            return res.status(200).json(`Updated to ${req.body.name}`)
         } else {
             return res.status(400).send("Can't update")
         }
@@ -62,14 +56,15 @@ const updateProduct = async (req, res) => {
         return res.status(400).send(err)
     }
 }
-    const deleteProduct = async (req, res) => {
-        try {
-            const product = await Product.destroy({where: {id: req.params.productId}})
-            return res.status(200).json(`Product with id: ${req.params.id} has been deleted`)
-        } catch (err) {
-            return res.status(500).send(err)
-        }
+
+const deleteProduct = async (req, res) => {
+    try {
+        const product = await Product.destroy({where: {id: req.params.productId}})
+        return res.status(200).json(`Product has been deleted`)
+    } catch (err) {
+        return res.status(500).send(err)
     }
+}
     
 
 
