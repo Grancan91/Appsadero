@@ -7,8 +7,8 @@ const Preference = sequelize.define('preference', {
         allowNull: false
     }
 },
-{updatedAt: false,
-    createdAt: false}
+/*{updatedAt: false,
+    createdAt: false}*/
 )
 
 module.exports = Preference;
