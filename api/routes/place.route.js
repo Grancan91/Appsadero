@@ -2,10 +2,10 @@ const router = require("express").Router();
 const { getAllPlaces, getOnePlace, createPlace, updatePlace, deletePlace} = require("../controllers/place.controller");
 const { checkAuth, checkId, checkAdmin } = require("../middleware/auth");
 
-router.get("/", checkAuth, getAllPlaces);
-router.get("/:placeId", checkAuth, getOnePlace);
-//router.post("/", checkAdmin, createPlace); TAREA DEL ADMIN!!! ********************
-router.put("/:placeId", checkAdmin, updatePlace);
-router.delete("/:placeId", checkAdmin, deletePlace);
+router.get("/",  getAllPlaces);
+router.get("/:placeId",  getOnePlace);
+router.post("/", createPlace); 
+router.put("/:placeId", updatePlace);
+router.delete("/:placeId", deletePlace);
 
 module.exports = router;

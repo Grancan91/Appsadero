@@ -13,7 +13,12 @@ const getAllPlaces = async (req, res) => {
 
 const createPlace = async (req, res) => {
     try {
-        const place = await Place.create(req.body)
+        const place = await Place.create({
+            name : req.body.name,
+            address: req.body.address,
+            facilities: req.body.facilities,
+            url: req.body.url
+        })
         return res.status(200).json('>> Place created!')
     } catch (error) {
         return res.status(500).send(">> Oops something went wrong.")
@@ -38,7 +43,7 @@ const updatePlace = async (req, res) => {
             },
         });
         if (placeExist !== 0) {
-            return res.status(200).json({ message: ">> Place updated", fields_updated: allergy });
+            return res.status(200).json({ message: ">> Place updated", fields_updated: place });
         } else {
             return res.status(404).send(">> Oops! Place not found");
         }

@@ -22,7 +22,7 @@ const getOneAllergy = async (req, res) => {
 
 const createAllergy = async (req, res) => {
     try {
-        const allergy = await Allergy.create(req.body)
+        const allergy = await Allergy.create({name: req.body.name})
         return res.status(200).json('>> Allergy created!')
     } catch (error) {
         return res.status(500).send(">> Oops something went wrong.")

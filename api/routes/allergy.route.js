@@ -4,8 +4,10 @@ const { getAllAllergies, getOneAllergy, createAllergy,
 const { checkAuth, checkAdmin } = require("../middleware/auth");
 
 
-router.get("/", checkAuth, getAllAllergies);
-router.get("/:allergyId", checkAuth, getOneAllergy);
-router.post("/", checkAdmin, createAllergy)
-router.put("/:allergyId", checkAdmin, updateAllergy);
-router.delete("/:allergyId", checkAdmin, deleteAllergy);
+router.get("/", getAllAllergies);
+router.get("/:allergyId", getOneAllergy);
+router.post("/", createAllergy);
+router.put("/:allergyId", updateAllergy);
+router.delete("/:allergyId", deleteAllergy);
+
+module.exports = router;

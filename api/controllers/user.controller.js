@@ -5,7 +5,7 @@ const getAllProfiles = async (req, res) =>  {
     const user = await User.findAll()
     return res.status(200).json(user)
   } catch (error) {
-    return res.status(500).send(">> Oops something went wrong.")
+    return res.status(500).send(">> Oops something went wrong. Maybe this allergy exists in our DB")
   }
 }
 
