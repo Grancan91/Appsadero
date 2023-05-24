@@ -32,6 +32,7 @@ const createAsadero = async (req, res) => {
         })
         return res.status(200).json('>> Asadero created!')
     }catch (error) {
+        console.log(error)
         return res.status(500).send(">> Oops something went wrong.")
     }
 }
@@ -64,7 +65,7 @@ const deleteAsadero = async (req, res) => {
 }
 
 //find all users of asadero
-async function getEagerAsaderoUser(req, res) {
+async function getUsersFromAsadero(req, res) {
     try {
         const asadero = await Asadero.findOne({
             where: {
@@ -79,11 +80,30 @@ async function getEagerAsaderoUser(req, res) {
     }
 }
 
+async function udpateUserFromAsadero(req, res) {
+    try {
+        const user = await User.findOne({ where: { id: req.params.userId }})
+        const asadero = await Asadero.findOne({where: { id: req.params.asaderoId }})
+        await user.setAsaderos([asadero], {
+            through: {
+                isOwner: req.body.isOwner,
+                isChef: req.body.isChef,
+                status: req.body.status 
+            }
+        })
+        return res.status(200).json(asadero)
+
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+}
+
 module.exports = {
     getAllAsaderos,
     getOneAsadero, 
     createAsadero,
     deleteAsadero,
     updateAsadero,
-    getEagerAsaderoUser
+    getUsersFromAsadero,
+    udpateUserFromAsadero
 };
