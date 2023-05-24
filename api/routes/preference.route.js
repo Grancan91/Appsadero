@@ -4,8 +4,8 @@ const {checkAuth, checkAdmin, checkId} = require('../middleware/auth')
 
 router.get('/', checkAuth, getAllPreferences)
 router.get('/:preferenceId', checkAuth, getOnePreference)
-router.post('/', checkAdmin, createPreference)
-router.put('/:preferenceId', checkAdmin, updatePreference)
-router.delete('/:preferenceId', checkAdmin, deletePreference)
+router.post('/', checkAuth, checkAdmin, createPreference)
+router.put('/:preferenceId', checkAuth, checkAdmin, updatePreference)
+router.delete('/:preferenceId', checkAuth, checkAdmin, deletePreference)
 
 module.exports = router;
