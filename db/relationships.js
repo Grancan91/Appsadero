@@ -3,13 +3,48 @@ const Place = require('../api/models/place.model')
 const User = require('../api/models/user.model')
 const Preference = require('../api/models/preference.model')
 const Product = require('../api/models/product.model')
-
+const Cart = require('../api/models/cart.model')
+const Allergy = require('../api/models/allergy.model')
 
 const initRelationships = () => {
-    
-    
+
+    //Allergies -> Products
+    Allergy.belongsToMany(Product, { through: 'allergies_products' })
+    Product.belongsToMany(Allergy, { through: 'allergies_products' })
+
+    //User ->  Allergy
+    User.belongsToMany(Allergy, { through: 'users_allergies' })
+    Allergy.belongsToMany(User, { through: 'users_allergies' })
+
+    //@OneToMany Preferences w Products
+    Preference.hasMany(Product)
+    Product.belongsTo(Preference)
+
+    //@ManyToMany Preferences w Users --> table in the middle USER_PREFERENCE
+    User.belongsToMany(Preference, { through: 'users_preferences' })
+    Preference.belongsToMany(User, { through: 'users_preferences' })
+
+    //Users -> Users -> Friends =)
+    User.belongsToMany(User, { through: 'friends', as: 'friend' })
+
+    // User -> Asadero
+    User.belongsToMany(Asadero, { through: 'users_asaderos' })
+    Asadero.belongsToMany(User, { through: 'users_asaderos' })
+
+    // Asadero -> ShoppingCart
+    Asadero.hasOne(Cart)
+    Cart.belongsTo(Asadero)
+
+    //Products -> Cart
+    Product.belongsToMany(Cart, { through: 'products_carts' })
+    Cart.belongsToMany(Product, { through: 'products_carts' })
+
+    //Asadero -> Places
+    Asadero.hasMany(Place)
+    Place.belongsTo(Asadero)
+
 }
 
-module.exports = { 
-    initRelationships 
+module.exports = {
+    initRelationships
 }
