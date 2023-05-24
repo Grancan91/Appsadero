@@ -24,7 +24,7 @@ INSERT INTO products (name, unit, price, preferenceId) VALUES
 ('Agua mineral sin gas', "ud", 1.99, 23),
 ('Nestea', "ud", 1.99, 24),
 ('Zumo de naranja', "ud", 2.99, 25),
-('Vino de Chianti', "ud", 10.99, 26)
+('Vino de Chianti', "ud", 10.99, 26),
 ('Cerveza Lager', "ud", 1.99, 27),
 ('Coñac', "ud", 28.99, 28),
 ('Carbón', "ud", 9.99, 28);

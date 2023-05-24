@@ -240,7 +240,7 @@ INSERT INTO products (preferenceid, name, unit, price) VALUES
 (25, 'Vino de Jerez', "ud", 9.99),
 (25, 'Vino de Borgoña', "ud", 14.99),
 (25, 'Vino de Burdeos', "ud", 13.99),
-(25, 'Vino de Chianti', "ud", 10.99)
+(25, 'Vino de Chianti', "ud", 10.99),
 (26, 'Cerveza Lager', "ud", 1.99),
 (26, 'Cerveza Ale', "ud", 2.99),
 (26, 'Cerveza IPA', "ud", 3.99),
