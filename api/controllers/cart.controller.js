@@ -82,9 +82,11 @@ const deleteProductFromCart = async (req, res) => {
       return res.status(200).json(">> Products deleted from your shopping cart.")
     }else{
       return res.status(400).send('>> Oops something went wrong.')
+      
     }
   } catch (error) {
     return res.status(400).send(">> Oops something went wrong.")
+
   }
 }
 
