@@ -1,5 +1,6 @@
 const Asadero = require('../models/asadero.model')
-const User = require('../models/user.model')
+const User = require('../models/user.model');
+const User_Asadero = require('../models/user_asadero.model');
 
  const getAllAsaderos = async (req, res) => {
   try {
@@ -80,6 +81,43 @@ async function getUsersFromAsadero(req, res) {
     }
 }
 
+//nombre horrible mejorar
+async function addUserToAsadero(req, res) {
+    try {
+        
+        const user_asadero = await User_Asadero.create({
+            userId: req.params.userId,
+            asaderoId: req.params.asaderoId,
+            isOwner: req.body.isOwner,
+            isChef: req.body.isChef,
+            status: req.body.status 
+          });
+            
+        return res.status(200).json(user_asadero)
+
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+}
+
+async function deleteUserFromAsadero(req, res) {
+    try {
+        const user_asadero = await User_Asadero.findOne({
+            where: {
+              userId: req.params.userId,
+              asaderoId: req.params.asaderoId
+            }
+          });
+          
+          await user_asadero.destroy();
+            
+        return res.status(200).json(user_asadero)
+
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+}
+
 async function udpateUserFromAsadero(req, res) {
     try {
         const user = await User.findOne({ where: { id: req.params.userId }})
@@ -105,5 +143,7 @@ module.exports = {
     deleteAsadero,
     updateAsadero,
     getUsersFromAsadero,
-    udpateUserFromAsadero
+    udpateUserFromAsadero,
+    addUserToAsadero,
+    deleteUserFromAsadero
 };
