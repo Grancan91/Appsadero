@@ -136,6 +136,7 @@ async function udpateUserFromAsadero(req, res) {
     }
 }
 
+
 module.exports = {
     getAllAsaderos,
     getOneAsadero, 
