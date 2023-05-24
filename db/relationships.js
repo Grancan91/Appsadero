@@ -21,11 +21,11 @@ const initRelationships = () => {
     Product.belongsTo(Preference)
 
     //@ManyToMany Preferences w Users --> table in the middle USER_PREFERENCE
-    User.belongsToMany(Preference, { through: 'users_preferences' })
+    User.belongsToMany(Preference, {through: 'users_preferences'})
     Preference.belongsToMany(User, { through: 'users_preferences' })
 
     //Users -> Users -> Friends =)
-    User.belongsToMany(User, { through: 'friends', as: 'friend' })
+    User.belongsToMany(User, { through: 'Friends', as: 'friend', onDelete: "cascade", })
 
     // User -> Asadero
     User.belongsToMany(Asadero, { through: 'users_asaderos' })

@@ -48,10 +48,80 @@ const deleteProfile = async(req, res) => {
   }
 }
 
+/* const getAllFriends = async (req, res) {
+
+}
+
+const getOneFriends = async (req, res) {
+
+} */
+
+const addFriends = async(req, res) => {
+  try{
+    const user = res.locals.user;
+    
+    if(req.body.length > 0){
+    const friends  = await User.findAll({
+      where: {
+        id: req.body
+      }
+    });
+      await user.addFriends(friends)
+      return res.status(200).json(friends)
+
+    }else{
+      const friend = await User.findByPk({
+        where: {
+          id: req.body
+        }
+      });
+      await user.addFriend(friend)
+      return res.status(200).json(friend)
+    }   
+  }catch(error){
+    console.error(error)
+    return res.status(400).send('Friend not found')
+  }
+}
+
+const deleteFriend = async (req, res) => {
+  try{
+  const user = res.locals.user;
+  if (req.body.length > 0) {
+    const friends = await User.findAll({
+      where: {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email
+      }
+    })
+    await user.removeFriends(friends)
+  }else{
+    const friend = await User.findOne({
+      where: {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email
+      }
+    })
+    await user.removeFriend(friend)
+
+  }
+  }catch (error){
+    return res.status(400).send('Friend not eliminated')
+
+  }
+
+
+} 
+
 //ejemplo
 module.exports = {
   getAllProfiles,
   getOneProfile,
   updateProfile,
   deleteProfile,
+  addFriends,
+  deleteFriend
+  
 };
