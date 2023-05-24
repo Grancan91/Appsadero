@@ -51,6 +51,8 @@ const deleteProfile = async(req, res) => {
   }
 }
 
+// Controller - Asaderos of one user
+
 async function getEagerUserAsadero(req, res) {
   try {
     const user = await User.findOne({
@@ -67,72 +69,83 @@ async function getEagerUserAsadero(req, res) {
 }
 
 
-/* const getAllFriends = async (req, res) {
+//Controllers of the relationship between users and their friends
 
-}
+const getAllFriends = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const friends = await user.getFriend();
+     
 
-const getOneFriends = async (req, res) {
+    res.status(200).json(friends);
+  } catch (error) {
+    return res.status(500).send("Oops, something went wrong. Maybe this user doesn't have any friends yet.");
+  }
+};
 
-} */
-
-const addFriends = async(req, res) => {
+const getOneFriend = async (req, res) => {
   try{
     const user = res.locals.user;
-    
-    if(req.body.length > 0){
-    const friends  = await User.findAll({
+    const friend = await User.findOne({
       where: {
-        id: req.body
+        id: req.params.friendId
       }
-    });
-      await user.addFriends(friends)
-      return res.status(200).json(friends)
+    })
+    await user.getFriend()
+    return res.status(200).json(friend)
 
-    }else{
-      const friend = await User.findByPk({
-        where: {
-          id: req.body
+
+  } catch (error) {
+    console.error(error)
+    return res.status(400).send('Friend not found')
+  }
+} 
+
+
+const addFriend = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const friends = req.body;
+
+    if (friends.id !== user.id) {
+      const friend = await User.findOne({ where: { id: friends.id} });
+      if (friend) {
+        const isAlreadyFriend = await user.hasFriend(friend);
+        if (!isAlreadyFriend) {
+          await user.addFriend(friend);
+          return res.status(200).json(friend);
+        } else {
+          return res.status(400).send(`User with ID ${friends.id} is already a friend`);
         }
-      });
-      await user.addFriend(friend)
-      return res.status(200).json(friend)
-    }   
-  }catch(error){
+      } else {
+        return res.status(404).send(`Friend with ID ${friends.id} not found`);
+      }
+    }
+      return res.status(500).send('Cannot be your own friend in this DB');   
+  } catch (error) {
+    return res.status(500).send('An error occurred while adding a friend');
+  }
+};
+
+
+
+const deleteFriend = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const friend = await User.findByPk(req.params.friendId)
+    if (friend) {
+      const isAlreadyFriend = await user.hasFriend(friend);
+      if (!isAlreadyFriend) {
+        return res.status(400).send('Friend not found')
+      }
+    await user.removeFriend(friend)
+    return res.status(200).json('Friend deleted')
+    }
+  } catch (error) {
     console.error(error)
     return res.status(400).send('Friend not found')
   }
 }
-
-const deleteFriend = async (req, res) => {
-  try{
-  const user = res.locals.user;
-  if (req.body.length > 0) {
-    const friends = await User.findAll({
-      where: {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email
-      }
-    })
-    await user.removeFriends(friends)
-  }else{
-    const friend = await User.findOne({
-      where: {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email
-      }
-    })
-    await user.removeFriend(friend)
-
-  }
-  }catch (error){
-    return res.status(400).send('Friend not eliminated')
-
-  }
-
-
-} 
 
 //ejemplo
 module.exports = {
@@ -140,7 +153,9 @@ module.exports = {
   getOneProfile,
   updateProfile,
   deleteProfile,
-  addFriends,
+  addFriend,
   deleteFriend,
+  getAllFriends,
+  getOneFriend,
   getEagerUserAsadero
 };
