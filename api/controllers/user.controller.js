@@ -31,8 +31,10 @@ const updateProfile = async (req, res) => {
     });
     if (userExist !== 0) {
       return res.status(200).json({ message: "User updated", fields_updated: user });
+      
     } else {
       return res.status(404).send("User not found");
+
     }
   } catch (error) {
     return res.status(500).send("Error to udpate user");
