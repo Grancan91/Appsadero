@@ -15,6 +15,8 @@ const Product = sequelize.define("product", {
         type: DataTypes.DOUBLE,
         defaultValue: 0
     }
-})
+},
+{updatedAt: false,
+    createdAt: false})
 
 module.exports = Product;
