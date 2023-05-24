@@ -20,23 +20,6 @@ const getOneProfile = async (req, res) =>  {
     }
  }
 
-const createNewProfile = async (req, res) => {
-    try {
-        const user = await User.create({
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            email: req.body.email,
-            password:req.body.password
-        })
-        return res.status(200).json({
-            message: ">> Profile successfully created!", 
-            user: {user}})
-
-    } catch (error) {
-        return res.status(404).send(">> Oops something went wrong creating your profile.")
-    }
-    
-}
 
 const updateProfile = async (req, res) => {
   try {
@@ -69,7 +52,6 @@ const deleteProfile = async(req, res) => {
 module.exports = {
   getAllProfiles,
   getOneProfile,
-  createNewProfile,
   updateProfile,
   deleteProfile,
 };
