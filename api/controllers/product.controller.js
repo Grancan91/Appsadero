@@ -1,4 +1,6 @@
 const Product = require("../models/product.model")
+const Allergy = require("../models/allergy.model")
+
 
 const createProduct = async (req, res) => {
     try {
@@ -7,6 +9,14 @@ const createProduct = async (req, res) => {
         und: req.body.und,
         price: req.body.und
     })      
+
+    //Add Allergy 
+    /*
+    if(req.body.allergy){
+        product.setAllergies(req.body.allergy)
+    }
+    */
+
     console.log("Product created")
     return res.status(200).json(product)
     } catch (err) {
