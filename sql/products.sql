@@ -1,4 +1,4 @@
-INSERT INTO products (preferences_id, name, unit, price) VALUES
+INSERT INTO products (preferenceid, name, unit, price) VALUES
 (1, 'Costillas de cerdo', "kg", 10.99),
 (1, 'Cerdo desmenuzado', "kg", 8.99),
 (1, 'Chuletas de cerdo', "kg", 9.99),
