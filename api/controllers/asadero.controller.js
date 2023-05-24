@@ -1,5 +1,5 @@
 const Asadero = require('../models/asadero.model')
-
+const User = require('../models/user.model')
 
  const getAllAsaderos = async (req, res) => {
   try {
@@ -63,11 +63,27 @@ const deleteAsadero = async (req, res) => {
     }
 }
 
+//find all users of asadero
+async function getEagerAsaderoUser(req, res) {
+    try {
+        const asadero = await Asadero.findOne({
+            where: {
+                id: req.params.asaderoId
+            },
+            include: User
+        });
+        return res.status(200).json(asadero)
+
+    } catch (error) {
+        return res.status(500).send("No fufa")
+    }
+}
 
 module.exports = {
-  getAllAsaderos,
-  getOneAsadero, 
-  createAsadero,
-  deleteAsadero,
-  updateAsadero,
+    getAllAsaderos,
+    getOneAsadero, 
+    createAsadero,
+    deleteAsadero,
+    updateAsadero,
+    getEagerAsaderoUser
 };
