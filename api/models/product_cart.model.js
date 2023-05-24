@@ -1,7 +1,7 @@
 const sequelize = require("../../db")
 const { DataTypes } = require("sequelize")
 
-const Product_Cart = sequelize.define("products_carts", {
+const Product_Cart = sequelize.define("product_cart", {
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -9,7 +9,6 @@ const Product_Cart = sequelize.define("products_carts", {
     buyed: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        
     }
 })
 

@@ -1,4 +1,4 @@
-const { defaultValueSchemable } = require("sequelize/types/utils");
+//const { defaultValueSchemable } = require("sequelize/types/utils");
 const sequelize = require("../../db")
 const { DataTypes } = require("sequelize")
 
