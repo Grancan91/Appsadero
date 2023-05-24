@@ -5,6 +5,7 @@ const Allergy = sequelize.define("allergy", {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true
     },
 })
 
