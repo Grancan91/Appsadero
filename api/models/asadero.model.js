@@ -22,7 +22,7 @@ const Asadero = sequelize.define("asadero", {
     allowNull: false,
   },
   price: {
-    type: DataTypes.DECIMAL,
+    type: DataTypes.DOUBLE,
     allowNull: true,
   },
   comments: {
