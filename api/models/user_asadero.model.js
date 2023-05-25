@@ -1,4 +1,4 @@
-//const { defaultValueSchemable } = require("sequelize/types/utils");
+
 const sequelize = require("../../db")
 const { DataTypes } = require("sequelize")
 
@@ -15,8 +15,6 @@ const User_Asadero = sequelize.define("user_asadero", {
         type: DataTypes.ENUM('pending', 'confirmed', 'paid', 'rejected'),
         defaultValue: "pending"
     }
-    
-},
+})
 
-)
 module.exports = User_Asadero;
