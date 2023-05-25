@@ -29,6 +29,18 @@ const createAllergy = async (req, res) => {
     }
 }
 
+const bulkCreateAllergy  = async (req, res) => {
+    try {
+        const allergies = await Allergy.bulkCreate(req.body)
+        if(preferences){
+            return res.status(200).json('>> Preferences created.')
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(404).send(">> Oops something went wrong.")
+    }
+}
+
 const updateAllergy = async (req, res) => {
     try {
         const [allergyExist, allergy] = await Allergy.update(req.body, {
@@ -63,5 +75,6 @@ module.exports = {
     getOneAllergy,
     createAllergy,
     updateAllergy,
-    deleteAllergy
+    deleteAllergy,
+    bulkCreateAllergy
 }

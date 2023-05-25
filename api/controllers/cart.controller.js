@@ -1,4 +1,6 @@
 const Cart = require("../models/cart.model")
+const Product = require("../models/product.model")
+const Products = require('../models/product.model')
 
 const createCart = async (req, res) => {
     try {
@@ -22,6 +24,18 @@ const getAllCart = async (req, res) => {
   try{
     const cart = await Cart.findAll()
     return res.status(200).json(cart)
+  }catch (err){
+    console.log(err)
+    return res.status(400).send(">> Oops something went wrong.")
+  }
+}
+
+const getAllProdcutsFromCart= async (req, res) => {
+  try{
+    const cart = await Cart.findByPk(req.params.cartId, {
+      include: Product
+    })
+    return res.status(200).json(cart.products)
   }catch (err){
     console.log(err)
     return res.status(400).send(">> Oops something went wrong.")
@@ -63,11 +77,11 @@ const addProductsToCart = async (req, res) => {
     if (cart){
       return res.status(200).json(">> Products added to your shopping cart.")
     }else{
-      return res.status(400).send('>> Oops something went wrong1.')
+      return res.status(400).send('>> Oops something went wrong.')
     }
   } catch (error) {
     console.log(error)
-    return res.status(400).send(">> Oops something went wrong2.")
+    return res.status(400).send(">> Oops something went wrong.")
   }
 }
 
@@ -93,5 +107,6 @@ module.exports = {
     updateCart,
     deleteCart,
     addProductsToCart,
-    deleteProductFromCart
+    deleteProductFromCart,
+    getAllProdcutsFromCart
   }

@@ -1,6 +1,5 @@
 const Place = require('../models/place.model')
 
-
 const getAllPlaces = async (req, res) => {
     try {
         const places = await Place.findAll();

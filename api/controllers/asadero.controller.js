@@ -1,14 +1,26 @@
 const Asadero = require('../models/asadero.model')
 const User = require('../models/user.model')
 const Cart = require('../models/cart.model')
+const User_Asadero = require('../models/user_asadero.model')
 
 const getAllAsaderos = async (req, res) => {
-  try {
-    const asadero = await Asadero.findAll();
-    return res.status(200).json(asadero);
-  } catch (error) {
-    return res.status(500).send(">> Oops something went wrong.");
-  }
+    try {
+        const asadero = await Asadero.findAll();
+        return res.status(200).json(asadero);
+    } catch (error) {
+        return res.status(500).send(">> Oops something went wrong.");
+    }
+} 
+
+const getAllMyAsaderos = async (req, res) => {
+    try {
+        const user = await User.findByPk(res.locals.user.id, {
+            include: Asadero
+        });
+        return res.status(200).json(user.asaderos);
+    } catch (error) {
+        return res.status(500).send(">> Oops something went wrong.");
+    }
 } 
 
 const getOneAsadero = async (req, res) => {
@@ -18,22 +30,35 @@ const getOneAsadero = async (req, res) => {
     } catch {
         return res.status(400).send(">> This asadero isn't in our Database");
     }
-};
+}
+
+const getOneMyAsadero = async (req, res) => {
+    try {
+        const user = await User.findByPk(res.locals.user.id, {
+            where: {
+                id: asadero.id
+            },
+            include: Asadero            
+        });
+        return res.status(200).json(user.asaderos);
+    } catch (error) {
+        return res.status(400).send(">> Oops something went wrong.");
+    }
+}
 
 const createAsadero = async (req, res) => {
     try{
         const asadero = await Asadero.create(req.body)
         const user = res.locals.user
-        
         if(asadero){
             await Cart.create({asaderoId: asadero.id})
             await asadero.addUser(user.id, {through: { isOwner: true, isChef: false, status: "confirmed" }})
             return res.status(200).json('>> Asadero created!')
         }else{
-            return res.status(400).send(">> Oops something went wrong1.")
+            return res.status(400).send(">> Oops something went wrong.")
         }
     }catch (error) {
-        return res.status(500).send(">> Oops something went wrong2.")
+        return res.status(500).send(">> Oops something went wrong.")
     }
 }
 
@@ -64,8 +89,7 @@ const deleteAsadero = async (req, res) => {
     }
 }
 
-//find all users of asadero
-async function getEagerAsaderoUser(req, res) {
+const getUsersFromAsadero = async (req, res) => {
     try {
         const asadero = await Asadero.findOne({
             where: {
@@ -73,10 +97,59 @@ async function getEagerAsaderoUser(req, res) {
             },
             include: User
         });
-        return res.status(200).json(asadero)
-
+        if(asadero.users){
+            return res.status(200).json(asadero.users)
+        }else{
+            return res.status(400).send(">> No users in the asadero.")
+        }
     } catch (error) {
-        return res.status(500).send("No fufa")
+        return res.status(500).send(">> Oops something went wrong.")
+    }
+}
+
+const addUserToAsadero = async (req, res) => {
+    try {
+        const user_asadero = await User_Asadero.create({
+            userId: req.params.userId,
+            asaderoId: req.params.asaderoId,
+            isOwner: false,
+            isChef: req.body.isChef,
+        });
+        return res.status(200).json(user_asadero)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(">> Oops something went wrong.")
+    }
+}
+
+const deleteUserFromAsadero = async (req, res) => {
+    try {
+        const user_asadero = await User_Asadero.findOne({
+            where: {
+              userId: req.params.userId,
+              asaderoId: req.params.asaderoId
+            }
+        });
+        await user_asadero.destroy();
+        return res.status(200).json(user_asadero)
+    } catch (error) {
+        return res.status(500).send(">> Oops something went wrong.")
+    }
+}
+
+const udpateUserFromAsadero = async (req, res) => {
+    try {
+        const user = await User.findOne({ where: { id: req.params.userId }})
+        const asadero = await Asadero.findOne({where: { id: req.params.asaderoId }})
+        await user.setAsaderos([asadero], {
+            through: {
+                isChef: req.body.isChef,
+                status: req.body.status 
+            }
+        })
+        return res.status(200).json(asadero)
+    } catch (error) {
+        return res.status(500).send(">> Oops something went wrong.")
     }
 }
 
@@ -86,5 +159,10 @@ module.exports = {
     createAsadero,
     deleteAsadero,
     updateAsadero,
-    getEagerAsaderoUser
+    getUsersFromAsadero,
+    addUserToAsadero,
+    deleteUserFromAsadero,
+    udpateUserFromAsadero,
+    getAllMyAsaderos,
+    getOneMyAsadero
 };

@@ -27,12 +27,15 @@ const createPreference = async (req, res) => {
     }
 }
 
-const bulkCreateProduct = async (req, res) => {
-    
-
-
-
-
+const bulkCreatePreference = async (req, res) => {
+    try {
+        const preferences = await Preference.bulkCreate(req.body)
+        if(preferences){
+            return res.status(200).json('>> Preferences created.')
+        }
+    } catch (error) {
+        return res.status(404).send(">> Oops something went wrong.")
+    }
 }
 
 const updatePreference = async (req, res) => {
@@ -76,5 +79,5 @@ module.exports = {
     createPreference,
     updatePreference,
     deletePreference,
-    bulkCreateProduct
+    bulkCreatePreference
 }

@@ -57,22 +57,6 @@ const deleteProfile = async(req, res) => {
   }
 }
 
-// Controller - Asaderos of one user
-
-async function getEagerUserAsadero(req, res) {
-  try {
-    const user = await User.findOne({
-      where: {
-        id: req.params.userId
-      },
-      include: Asadero
-    });
-    return res.status(200).json(user)
-
-  } catch (error) {
-    return res.status(500).send("No fufa")
-  }
-}
 
 
 //Controllers of the relationship between users and their friends
@@ -162,6 +146,5 @@ module.exports = {
   addFriend,
   deleteFriend,
   getAllFriends,
-  getOneFriend,
-  getEagerUserAsadero
+  getOneFriend
 };
