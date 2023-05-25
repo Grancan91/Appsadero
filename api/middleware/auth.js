@@ -39,10 +39,9 @@ const checkOwner = async (req, res, next) => {
 
             const user = asadero.users.filter((user) => user.id == res.locals.user.id)
             if (user[0].user_asadero.isOwner){
-                console.log("tenemos permiso")
                 next()
             } else  {
-                return res.status(500).send("usuario no tiene permisos")
+                return res.status(500).send("You are not Owner to access this resource")
             }
 
     } catch (err) {

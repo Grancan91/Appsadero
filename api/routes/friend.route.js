@@ -7,7 +7,7 @@ const {
 const { checkAuth } = require("../middleware/auth");
 
 
-router.post('/', checkAuth, addFriend)
+router.put('/add/:friendId', checkAuth, addFriend)
 router.delete('/:friendId', checkAuth, deleteFriend)
 router.get('/', checkAuth, getAllFriends)
 router.get('/:friendId', checkAuth, getOneFriend)

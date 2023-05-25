@@ -93,10 +93,10 @@ const getOneFriend = async (req, res) => {
 const addFriend = async (req, res) => {
   try {
     const user = res.locals.user;
-    const friends = req.body;
+    const friends = req.params.friendId;
 
     if (friends.id !== user.id) {
-      const friend = await User.findOne({ where: { id: friends.id} });
+      const friend = await User.findOne({ where: { id: friends} });
       if (friend) {
         const isAlreadyFriend = await user.hasFriend(friend);
         if (!isAlreadyFriend) {

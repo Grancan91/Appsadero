@@ -18,7 +18,7 @@ const createPlace = async (req, res) => {
             facilities: req.body.facilities,
             url: req.body.url
         })
-        return res.status(200).json('>> Place created!')
+        return res.status(200).json('Place created!')
     } catch (error) {
         return res.status(500).send(">> Oops something went wrong.")
     }
@@ -42,12 +42,12 @@ const updatePlace = async (req, res) => {
             },
         });
         if (placeExist !== 0) {
-            return res.status(200).json({ message: ">> Place updated", fields_updated: place });
+            return res.status(200).json({ message: "Place updated", fields_updated: place });
         } else {
             return res.status(404).send(">> Oops! Place not found");
         }
     } catch (error) {
-        return res.status(500).send("Error to udpate place");
+        return res.status(500).send(">> Error to udpate place");
     }
 }
 
@@ -56,7 +56,7 @@ const deletePlace = async (req, res) => {
         const place = await Place.destroy({ where: { id: req.params.placeId } })
         return res.status(200).send("Place Deleted")
     } catch (err) {
-        res.status(400).send("Place has not been deleted")
+        res.status(400).send(">> Place has not been deleted")
     }
 }
 

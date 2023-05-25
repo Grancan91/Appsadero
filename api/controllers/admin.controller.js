@@ -14,8 +14,10 @@ const createNewUser = async (req, res) => {
         const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1y' })
 
         return res.status(200).json({
-            message: ">> Profile successfully created!",
-            user: user.first_name 
+            message: "Profile successfully created!",
+            first_name: user.first_name ,
+            last_name: user.last_name
+            
         })
 
     } catch (error) {
@@ -36,10 +38,10 @@ const updateUser = async (req, res) => {
         if (userExist !== 0) {
             return res.status(200).json({ message: "User updated", fields_updated: user });
         } else {
-            return res.status(404).send("User not found");
+            return res.status(404).send(">> User not found");
         }
     } catch (error) {
-        return res.status(500).send("Error to udpate user");
+        return res.status(500).send(">> Error to udpate user");
     }
 };
 
@@ -48,7 +50,7 @@ const deleteUser = async (req, res) => {
         const user = await User.destroy({ where: { id: req.params.userId } });
         return res.status(200).json("User deleted")
     } catch {
-        return res.status(500).send("Error to udpate user")
+        return res.status(500).send(">> Error to udpate user")
     }
 }
 

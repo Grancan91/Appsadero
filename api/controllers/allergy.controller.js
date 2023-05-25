@@ -23,7 +23,7 @@ const getOneAllergy = async (req, res) => {
 const createAllergy = async (req, res) => {
     try {
         const allergy = await Allergy.create({name: req.body.name})
-        return res.status(200).json('>> Allergy created!')
+        return res.status(200).json('Allergy created!')
     } catch (error) {
         return res.status(500).send(">> Oops something went wrong.")
     }
@@ -33,7 +33,7 @@ const bulkCreateAllergy  = async (req, res) => {
     try {
         const allergies = await Allergy.bulkCreate(req.body)
         if(preferences){
-            return res.status(200).json('>> Preferences created.')
+            return res.status(200).json('Allergies created.')
         }
     } catch (error) {
         console.log(error)
@@ -50,12 +50,12 @@ const updateAllergy = async (req, res) => {
             },
         });
         if (allergyExist !== 0) {
-            return res.status(200).json({ message: ">> Allergy updated", fields_updated: allergy });
+            return res.status(200).json({ message: "Allergy updated", fields_updated: allergy });
         } else {
             return res.status(404).send(">> Oops! Allergy not found");
         }
     } catch (error) {
-        return res.status(500).send("Error to udpate place");
+        return res.status(500).send(">> Error to udpate allergy");
     }
 }
 
@@ -64,7 +64,7 @@ const deleteAllergy = async (req, res) => {
         const allergy = await Allergy.destroy({ where: { id: req.params.allergyId } })
         return res.status(200).send("Allergy Deleted")
     } catch (err) {
-        res.status(400).send("Allergy has not been deleted")
+        res.status(400).send(">> Allergy has not been deleted")
     }
 }
 
