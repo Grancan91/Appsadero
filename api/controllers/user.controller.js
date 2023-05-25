@@ -78,9 +78,8 @@ async function getAsaderosFromUser(req, res) {
 const getAllFriends = async (req, res) => {
   try {
     const user = res.locals.user;
-    const friends = await user.getFriend();
-     
-
+    const friends = await user.getFriend(
+    { attributes: ['id', 'first_name', 'last_name', 'email'] })
     res.status(200).json(friends);
   } catch (error) {
     return res.status(500).send("Oops, something went wrong. Maybe this user doesn't have any friends yet.");
@@ -96,7 +95,11 @@ const getOneFriend = async (req, res) => {
       }
     })
     await user.getFriend()
-    return res.status(200).json(friend)
+    return res.status(200).json({
+      first_name: friend.first_name,
+      last_name: friend.last_name,
+      email: friend.email
+    })
 
 
   } catch (error) {
@@ -117,7 +120,11 @@ const addFriend = async (req, res) => {
         const isAlreadyFriend = await user.hasFriend(friend);
         if (!isAlreadyFriend) {
           await user.addFriend(friend);
-          return res.status(200).json(friend);
+          return res.status(200).json({
+            first_name: friend.first_name,
+            last_name: friend.last_name,
+            email: friend.email
+          });
         } else {
           return res.status(400).send(`User with ID ${friends.id} is already a friend`);
         }
