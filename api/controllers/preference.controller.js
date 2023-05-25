@@ -27,6 +27,14 @@ const createPreference = async (req, res) => {
     }
 }
 
+const bulkCreateProduct = async (req, res) => {
+    
+
+
+
+
+}
+
 const updatePreference = async (req, res) => {
     try {
         const [prefereceExist, preference] = await Preference.update(req.body, {
@@ -59,10 +67,14 @@ const deletePreference = async (req, res) => {
     }
 }
 
+
+
+
 module.exports = {
     getAllPreferences,
     getOnePreference,
     createPreference,
     updatePreference,
-    deletePreference
+    deletePreference,
+    bulkCreateProduct
 }
