@@ -84,15 +84,14 @@ async function getUsersFromAsadero(req, res) {
 //nombre horrible mejorar
 async function addUserToAsadero(req, res) {
     try {
-        
         const user_asadero = await User_Asadero.create({
             userId: req.params.userId,
             asaderoId: req.params.asaderoId,
             isOwner: req.body.isOwner,
             isChef: req.body.isChef,
             status: req.body.status 
-          });
-            
+        });
+        
         return res.status(200).json(user_asadero)
 
     } catch (error) {
@@ -136,7 +135,6 @@ async function udpateUserFromAsadero(req, res) {
     }
 }
 
-
 module.exports = {
     getAllAsaderos,
     getOneAsadero, 
@@ -148,3 +146,4 @@ module.exports = {
     addUserToAsadero,
     deleteUserFromAsadero
 };
+
