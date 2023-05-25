@@ -32,26 +32,34 @@ const checkAdmin = (req, res, next) => {
 const checkOwner = async (req, res, next) => {
     
     try {
-        const user = await User.findOne({
-            where: {
-                id: res.locals.user.id,
-            },
-            include: Asadero
+        //Search asadero where {param.id} and include his Users
+        const asadero = await Asadero.findByPk(req.params.asaderoId,{
+            include: User
         });
 
+            const user = asadero.users.filter((user) => user.id == res.locals.user.id)
+            if (user[0].user_asadero.isOwner){
+                console.log("tenemos permiso")
+                next()
+            } else  {
+                return res.status(500).send("usuario no tiene permisos")
+            }
+
+        
+/* 
         const arrAsaderos = user.asaderos
         const filterAsadero = arrAsaderos.filter(element => element.id == res.locals.user.id)
-        const isOwner = filterAsadero[0].user_asadero.isOwner
+        const isOwner = filterAsadero[0].user_asadero.isOwner */
 
-        if (isOwner) {
+        /* if (isOwner) {
             res.status(200).json(`Is Owner: ${isOwner}`)
             next()
         } else {
             //res.status(400).json(`Is Owner: ${isOwner}`)
-        }
+        } */
 
     } catch (err) {
-      //  return res.status(500).send(err)
+      return res.status(500).send(err)
     }
     
 }

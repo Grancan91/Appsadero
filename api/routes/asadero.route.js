@@ -12,8 +12,8 @@ router.delete('/:asaderoId', deleteAsadero) //Middlware isOwner
 
 router.get("/:asaderoId/user",  getUsersFromAsadero);
 router.post("/:asaderoId/user/:userId", checkAuth, checkOwner, addUserToAsadero); //addUserToAsadero
-router.delete("/:asaderoId/user/:userId",  deleteUserFromAsadero);
-router.put("/:asaderoId/user/:userId",  udpateUserFromAsadero);
+router.delete("/:asaderoId/user/:userId", checkOwner,  deleteUserFromAsadero);
+router.put("/:asaderoId/user/:userId", checkOwner,  udpateUserFromAsadero);
 
 
 module.exports = router;
