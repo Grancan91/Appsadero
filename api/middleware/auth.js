@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user.model')
-
+const Asadero = require('../models/asadero.model')
 //this is a middleware that checks the authentication before creation
 
 
@@ -12,7 +12,7 @@ const checkAuth = (req, res, next) => {
             return res.status(403).send('>> Token not valid!')
         }
         const user = await User.findOne({ where: {email: result.email} })
-        
+    
         if(!user){
             console.error(error)
             return res.status(403).send('>> Token not valid!')
@@ -29,6 +29,26 @@ const checkAdmin = (req, res, next) => {
     next();
 }
 
+const checkOwner = async (req, res, next) => {
+    
+    try {
+        //Search asadero where {param.id} and include his Users
+        const asadero = await Asadero.findByPk(req.params.asaderoId,{
+            include: User
+        });
 
+            const user = asadero.users.filter((user) => user.id == res.locals.user.id)
+            if (user[0].user_asadero.isOwner){
+                console.log("tenemos permiso")
+                next()
+            } else  {
+                return res.status(500).send("usuario no tiene permisos")
+            }
 
-module.exports = { checkAuth, checkAdmin };
+    } catch (err) {
+      return res.status(500).send(err)
+    }
+    
+}
+
+module.exports = { checkAuth, checkAdmin, checkOwner };
