@@ -81,7 +81,7 @@ const createAsadero = async (req, res) => {
         if(asadero){
             await Cart.create({asaderoId: asadero.id})
             await asadero.addUser(user.id, {through: { isOwner: true, isChef: false, status: "confirmed" }})
-            return res.status(200).json('>> Asadero created!')
+            return res.status(200).json('Asadero created!')
         }else{
             return res.status(400).send(">> Oops something went wrong.")
         }
@@ -152,6 +152,22 @@ const deleteUserFromAsadero = async (req, res) => {
     }
 }
 
+const rejectUsersFromAsadero = async (req, res) => {
+    try {
+        const asadero = await Asadero.findByPk(req.params.asaderoId)
+        await User_Asadero.update(
+            { status: 'rejected' },
+            { where: { asaderoId: asadero.id, status: 'pending' } }
+        );
+        return res.status(200).json('asadero closed')
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(">> Oops something went wrong.")
+    }
+}
+
+
+
 module.exports = {
     getAllAsaderos,
     getOneAsadero, 
@@ -162,6 +178,7 @@ module.exports = {
     addUserToAsadero,
     deleteUserFromAsadero,
     getAllMyAsaderos,
-    getOneMyAsadero
+    getOneMyAsadero,
+    rejectUsersFromAsadero
 };
 
