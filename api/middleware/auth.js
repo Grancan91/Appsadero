@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user.model')
-
+const Asadero = require('../models/asadero.model')
 //this is a middleware that checks the authentication before creation
 
 
@@ -12,7 +12,7 @@ const checkAuth = (req, res, next) => {
             return res.status(403).send('>> Token not valid!')
         }
         const user = await User.findOne({ where: {email: result.email} })
-        
+    
         if(!user){
             console.error(error)
             return res.status(403).send('>> Token not valid!')
@@ -29,6 +29,31 @@ const checkAdmin = (req, res, next) => {
     next();
 }
 
+const checkOwner = async (req, res, next) => {
+    
+    try {
+        const user = await User.findOne({
+            where: {
+                id: res.locals.user.id,
+            },
+            include: Asadero
+        });
 
+        const arrAsaderos = user.asaderos
+        const filterAsadero = arrAsaderos.filter(element => element.id == res.locals.user.id)
+        const isOwner = filterAsadero[0].user_asadero.isOwner
 
-module.exports = { checkAuth, checkAdmin };
+        if (isOwner) {
+            res.status(200).json(`Is Owner: ${isOwner}`)
+            next()
+        } else {
+            res.status(404).json(`Is Owner: ${isOwner}`)
+        }
+
+    } catch (err) {
+        return res.status(500).send(err)
+    }
+    
+}
+
+module.exports = { checkAuth, checkAdmin, checkOwner };
