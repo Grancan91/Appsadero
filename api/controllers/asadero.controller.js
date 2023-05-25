@@ -152,58 +152,7 @@ const udpateUserFromAsadero = async (req, res) => {
     }
 }
 
-//nombre horrible mejorar
-async function addUserToAsadero(req, res) {
-    try {
-        const user_asadero = await User_Asadero.create({
-            userId: req.params.userId,
-            asaderoId: req.params.asaderoId,
-            isOwner: req.body.isOwner,
-            isChef: req.body.isChef,
-            status: req.body.status 
-        });
-        
-        return res.status(200).json(user_asadero)
 
-    } catch (error) {
-        return res.status(500).send(error)
-    }
-}
-
-async function deleteUserFromAsadero(req, res) {
-    try {
-        const user_asadero = await User_Asadero.findOne({
-            where: {
-              userId: req.params.userId,
-              asaderoId: req.params.asaderoId
-            }
-          });
-          
-          await user_asadero.destroy();
-            
-        return res.status(200).json(user_asadero)
-
-    } catch (error) {
-        return res.status(500).send(error)
-    }
-}
-
-async function udpateUserFromAsadero(req, res) {
-    try {
-        const user = await User.findOne({ where: { id: req.params.userId }})
-        const asadero = await Asadero.findOne({where: { id: req.params.asaderoId }})
-        await user.setAsaderos([asadero], {
-            through: {
-                isOwner: req.body.isOwner,
-                isChef: req.body.isChef,
-                status: req.body.status 
-            }
-        })
-        return res.status(200).json(asadero)
-    } catch (error) {
-        return res.status(500).send(error)
-    }
-}
 
 module.exports = {
     getAllAsaderos,

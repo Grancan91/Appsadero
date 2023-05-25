@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const { getAllAsaderos, getOneAsadero, createAsadero, updateAsadero, deleteAsadero, getUsersFromAsadero, udpateUserFromAsadero, addUserToAsadero, deleteUserFromAsadero} = require("../controllers/asadero.controller.js");
+const { getAllAsaderos, getOneAsadero, createAsadero, updateAsadero, deleteAsadero, getUsersFromAsadero, udpateUserFromAsadero, addUserToAsadero, deleteUserFromAsadero, getAllMyAsaderos} = require("../controllers/asadero.controller.js");
 const { checkAuth, checkAdmin } = require("../middleware/auth");
 
-router.get('/', checkAuth,checkAdmin, getAllAsaderos) // ONLY ADMIN
+router.get('/', checkAuth,checkAdmin, getAllAsaderos) // ONLY ADMINgetAllMyAsaderos
 router.get('/myAsaderos', checkAuth, getAllMyAsaderos) // ALL ASADEROS WHERE USER IS IN
 router.get("/:asaderoId", checkAuth, checkAdmin, getOneAsadero) // ONLY ADMIN
 //router.get('/myAsaderos/:asaderoId', checkAuth, getOneMyAsadero) // ONE ASADERO WHERE USER IS IN
