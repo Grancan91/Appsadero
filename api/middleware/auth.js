@@ -47,11 +47,11 @@ const checkOwner = async (req, res, next) => {
             res.status(200).json(`Is Owner: ${isOwner}`)
             next()
         } else {
-            res.status(404).json(`Is Owner: ${isOwner}`)
+            //res.status(400).json(`Is Owner: ${isOwner}`)
         }
 
     } catch (err) {
-        return res.status(500).send(err)
+      //  return res.status(500).send(err)
     }
     
 }
