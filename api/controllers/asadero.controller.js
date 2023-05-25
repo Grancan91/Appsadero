@@ -24,15 +24,22 @@ const getOneAsadero = async (req, res) => {
 const createAsadero = async (req, res) => {
     try{
         const asadero = await Asadero.create(req.body)
+        const user = res.locals.user
+        
         if(asadero){
             await Cart.create({asaderoId: asadero.id})
+            await asadero.addUser(user.id, {through: { isOwner: true, isChef: false, status: "confirmed" }})
             return res.status(200).json('>> Asadero created!')
         }else{
-            return res.status(400).send(">> Oops something went wrong.")
+            return res.status(400).send(">> Oops something went wrong1.")
         }
     }catch (error) {
+<<<<<<< HEAD
         console.log(error)
         return res.status(500).send(">> Oops something went wrong.")
+=======
+        return res.status(500).send(">> Oops something went wrong2.")
+>>>>>>> diana
     }
 }
 
