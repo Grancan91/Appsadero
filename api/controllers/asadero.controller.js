@@ -34,12 +34,7 @@ const createAsadero = async (req, res) => {
             return res.status(400).send(">> Oops something went wrong1.")
         }
     }catch (error) {
-<<<<<<< HEAD
-        console.log(error)
         return res.status(500).send(">> Oops something went wrong.")
-=======
-        return res.status(500).send(">> Oops something went wrong2.")
->>>>>>> diana
     }
 }
 
