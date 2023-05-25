@@ -17,7 +17,7 @@ const getOneProfile = async (req, res) =>  {
         const user = await User.findOne({ where: {email: req.params.email} })
         return res.status(200).json({id: user.id, first_name: user.first_name})
     }catch{
-        return  res.status(400).send(">> This user isn't in our Database");
+        return res.status(400).send(">> This user isn't in our Database");
     }
  }
 
@@ -84,7 +84,6 @@ const getOneFriend = async (req, res) => {
       email: friend.email
     })
   } catch (error) {
-    console.error(error)
     return res.status(400).send('>> Friend not found')
   }
 } 
@@ -134,7 +133,6 @@ const deleteFriend = async (req, res) => {
     return res.status(200).json('Friend deleted')
     }
   } catch (error) {
-    console.error(error)
     return res.status(400).send('>> Friend not found')
   }
 }
