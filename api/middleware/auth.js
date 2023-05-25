@@ -45,19 +45,6 @@ const checkOwner = async (req, res, next) => {
                 return res.status(500).send("usuario no tiene permisos")
             }
 
-        
-/* 
-        const arrAsaderos = user.asaderos
-        const filterAsadero = arrAsaderos.filter(element => element.id == res.locals.user.id)
-        const isOwner = filterAsadero[0].user_asadero.isOwner */
-
-        /* if (isOwner) {
-            res.status(200).json(`Is Owner: ${isOwner}`)
-            next()
-        } else {
-            //res.status(400).json(`Is Owner: ${isOwner}`)
-        } */
-
     } catch (err) {
       return res.status(500).send(err)
     }
