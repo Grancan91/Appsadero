@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { getAllPreferences, getOnePreference, createPreference, updatePreference, deletePreference } = require('../controllers/preference.controller')
-const {checkAuth, checkAdmin, checkId} = require('../middleware/auth')
+const {checkAuth, checkAdmin} = require('../middleware/auth')
 
 router.get('/', checkAuth, getAllPreferences)
 router.get('/:preferenceId', checkAuth, getOnePreference)

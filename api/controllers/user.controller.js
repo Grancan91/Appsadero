@@ -24,19 +24,22 @@ const getOneProfile = async (req, res) =>  {
 
 const updateProfile = async (req, res) => {
   try {
-    const [userExist, user] = await User.update(req.body, {
-      returning: true,
-      where: {
-        id: req.params.userId,
-      },
-    });
-    if (userExist !== 0) {
-      return res.status(200).json({ message: "User updated", fields_updated: user });
-      
-    } else {
-      return res.status(404).send("User not found");
-
+    if (parseInt(req.params.userId) === res.locals.user.id){
+      const [userExist, user] = await User.update(req.body, {
+        returning: true,
+        where: {
+          id: req.params.userId,
+        },
+      });
+      if (userExist !== 0) {
+        return res.status(200).json({ message: "User updated", fields_updated: user });
+        
+      } else {
+        return res.status(404).send("User not found");
+      }
     }
+    res.status(500).send("Access denied")
+
   } catch (error) {
     return res.status(500).send("Error to udpate user");
   }
@@ -44,8 +47,11 @@ const updateProfile = async (req, res) => {
 
 const deleteProfile = async(req, res) => {
   try {
+    if (parseInt(req.params.userId) === res.locals.user.id) {
     const user = await User.destroy({ where: { id: req.params.userId } });
     return res.status(200).json("User deleted")
+    }
+    res.status(500).send("Access denied")
   }catch{
     return res.status(500).send("Error to udpate user")
   }

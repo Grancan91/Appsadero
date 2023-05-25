@@ -29,15 +29,6 @@ const checkAdmin = (req, res, next) => {
     next();
 }
 
-const checkId = async (req, res, next) => {
-       
-    await (() => {
-        if(parseInt(req.params.userId) === res.locals.user.id){
-            next()
-        } else {
-            res.status(500).send("Adonde vas chiquito chichon, que este no es tu usuario")
-        }
-    })()
-}
 
-module.exports = { checkAuth, checkAdmin, checkId };
+
+module.exports = { checkAuth, checkAdmin };
