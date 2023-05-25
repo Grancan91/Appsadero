@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { getAllAsaderos, getOneAsadero, createAsadero, updateAsadero, deleteAsadero, getEagerAsaderoUser} = require("../controllers/asadero.controller.js");
+const { getAllAsaderos, getOneAsadero, createAsadero, updateAsadero, deleteAsadero, getUsersFromAsadero, udpateUserFromAsadero, addUserToAsadero, deleteUserFromAsadero} = require("../controllers/asadero.controller.js");
 const { checkAuth, checkAdmin } = require("../middleware/auth");
 
 
@@ -10,7 +10,10 @@ router.post('/', checkAuth, createAsadero)
 router.put('/:asaderoId', updateAsadero) //Middlware isOwner
 router.delete('/:asaderoId', deleteAsadero) //Middlware isOwner
 
-router.get("/:asaderoId/user",  getEagerAsaderoUser);
+router.get("/:asaderoId/user",  getUsersFromAsadero);
+router.post("/:asaderoId/user/:userId",  addUserToAsadero);
+router.delete("/:asaderoId/user/:userId",  deleteUserFromAsadero);
+router.put("/:asaderoId/user/:userId",  udpateUserFromAsadero);
 
 
 module.exports = router;

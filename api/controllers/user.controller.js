@@ -57,9 +57,7 @@ const deleteProfile = async(req, res) => {
   }
 }
 
-// Controller - Asaderos of one user
-
-async function getEagerUserAsadero(req, res) {
+async function getAsaderosFromUser(req, res) {
   try {
     const user = await User.findOne({
       where: {
@@ -163,5 +161,5 @@ module.exports = {
   deleteFriend,
   getAllFriends,
   getOneFriend,
-  getEagerUserAsadero
+  getAsaderosFromUser
 };
