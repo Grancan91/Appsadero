@@ -1,11 +1,10 @@
 const Cart = require("../models/cart.model")
 const Product = require("../models/product.model")
-const Products = require('../models/product.model')
 
 const createCart = async (req, res) => {
     try {
       await Cart.create(req.body)      
-      return res.status(200).json('>> Cart created!')
+      return res.status(200).json('Cart created!')
     } catch (err) {
       return res.status(404).send(">> Oops something went wrong creating the cart.")
     }
@@ -30,19 +29,18 @@ const getAllCart = async (req, res) => {
   }
 }
 
-const getAllProdcutsFromCart= async (req, res) => {
-  try{
-    const cart = await Cart.findByPk(req.params.cartId, {
-      include: Product
-    })
-    return res.status(200).json(cart.products)
-  }catch (err){
-    console.log(err)
-    return res.status(400).send(">> Oops something went wrong.")
+const getAllProductsFromCart = async (req, res) => {
+  try {
+    const cart = await Cart.findByPk(req.params.cartId)
+    const products = await cart.getProducts()
+    return res.status(200).json(products);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send(">> Oops something went wrong.");
   }
 }
 
-//No Work
+/*
 const updateCart = async (req, res) => {
     try {
       const [cartExist, cart] = await Cart.update(req.body, {
@@ -59,26 +57,29 @@ const updateCart = async (req, res) => {
     } catch (error) {
       return res.status(500).send("Error to udpate cart");
     }
-};
+}
+*/
 
 const deleteCart = async (req, res) => {
     try{
         const cart =  await Cart.destroy({ where: {id: req.params.cartId}} )
-        return res.status(200).send("Cart Deleted")
+        return res.status(200).send("Cart deleted.")
     } catch (err) {
-        return res.status(400).send("Cart has not been deleted")
+        return res.status(400).send(">> Cart has not been deleted.")
     }
 }
 
 const addProductsToCart = async (req, res) => {
   try { 
     const cart = await Cart.findByPk(req.params.cartId)
-    await cart.addProducts(req.params.productId)
-    if (cart){
-      return res.status(200).json(">> Products added to your shopping cart.")
+    const product = await Product.findByPk(req.params.productId)
+    await cart.addProducts(product)
+    return res.status(200).json(product.name)
+    /*if (!error){ 
+
     }else{
       return res.status(400).send('>> Oops something went wrong.')
-    }
+    }*/
   } catch (error) {
     console.log(error)
     return res.status(400).send(">> Oops something went wrong.")
@@ -101,12 +102,12 @@ const deleteProductFromCart = async (req, res) => {
 
 
 module.exports = {
-    createCart,
-    getOneCart,
-    getAllCart,
-    updateCart,
-    deleteCart,
-    addProductsToCart,
-    deleteProductFromCart,
-    getAllProdcutsFromCart
-  }
+  createCart,
+  getOneCart,
+  getAllCart,
+  //updateCart,
+  deleteCart,
+  addProductsToCart,
+  deleteProductFromCart,
+  getAllProductsFromCart,
+};

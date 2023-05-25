@@ -5,19 +5,15 @@ const Allergy = require("../models/allergy.model")
 const createProduct = async (req, res) => {
     try {
         const product = await Product.create(req.body)      
-
         //Add Allergy 
-        /*
         if(req.body.allergy){
             product.setAllergies(req.body.allergy)
         }
-        */
-        return res.status(200).json(`>> ${product.name} created.`)
+        return res.status(200).json(`${product.name} created.`)
     } catch (err) {
         return res.status(404).send(">> Oops something went wrong.")
     }
 }
-
 
 const bulkCreateProduct = async (req, res) => {
     try {
@@ -30,13 +26,15 @@ const bulkCreateProduct = async (req, res) => {
     }
 }
 
-
 const getOneProduct = async (req, res) => {
     try{
         const product = await Product.findOne({ where: {id: req.params.productId}})
-        return res.status(200).json(product)
+        return res.status(200).json({
+            name: product.name,
+            unit: product.unit,
+            price: product.price,
+          })
     }catch (err){
-        console.log(err)
         return res.status(400).send(err)
     }
 }
@@ -78,8 +76,6 @@ const deleteProduct = async (req, res) => {
         return res.status(500).send(err)
     }
 }
-    
-
 
 module.exports = {
     createProduct,
@@ -87,5 +83,5 @@ module.exports = {
     getAllProducts,
     updateProduct,
     deleteProduct,
-    bulkCreateProduct
+    bulkCreateProduct,
 }

@@ -1,11 +1,16 @@
 const Asadero = require('../models/asadero.model')
 const User = require('../models/user.model')
 const Cart = require('../models/cart.model')
+const User_Asadero = require('../models/user_asadero.model')
 
 const getAllAsaderos = async (req, res) => {
     try {
         const asadero = await Asadero.findAll();
-        return res.status(200).json(asadero);
+        if(asadero){
+            return res.status(200).json(asadero);
+        }else{
+            return res.status(400).send(">> Oops, no asaderos yet.");
+        }
     } catch (error) {
         return res.status(500).send(">> Oops something went wrong.");
     }
@@ -27,7 +32,7 @@ const getOneAsadero = async (req, res) => {
         const asadero = await Asadero.findByPk(req.params.asaderoId);
         return res.status(200).json(asadero);
     } catch {
-        return res.status(400).send(">> This asadero isn't in our Database");
+        return res.status(400).send(">> This asadero isn't in our Database.");
     }
 }
 
@@ -42,6 +47,30 @@ const getOneMyAsadero = async (req, res) => {
         return res.status(200).json(user.asaderos);
     } catch (error) {
         return res.status(400).send(">> Oops something went wrong.");
+    }
+}
+
+const getUsersFromAsadero = async (req, res) => {
+    try {
+        const asadero = await Asadero.findOne({
+            where: {
+                id: req.params.asaderoId
+            },
+            include: User
+        });
+        if(asadero.users){
+            return res.status(200).json({
+                users: asadero.users.map(user => ({
+                    id: user.id,
+                    first_name: user.first_name,
+                    email: user.email
+                }))
+            })
+        }else{
+            return res.status(400).send(">> No users in the asadero.")
+        }
+    } catch (error) {
+        return res.status(500).send(">> Oops something went wrong.")
     }
 }
 
@@ -70,73 +99,16 @@ const updateAsadero = async (req, res) => {
             },
         });
         if (asaderoExist !== 0) {
-            return res.status(200).json({ message: ">> Asadero updated", fields_updated: asadero });
+            return res.status(200).json({ message: "Asadero updated.", fields_updated: asadero });
         } else {
-            return res.status(404).send(">> Oops! Asadero not found");
+            return res.status(404).send(">> Oops, asadero not found.");
         }
     } catch (error) {
-        return res.status(500).send("Error to udpate asadero");
-    }
-}
-
-const deleteAsadero = async (req, res) => {
-    try{
-        const asadero =  await Asadero.destroy({ where: {id: req.params.userId}} )
-        return res.status(200).send("Asadero Deleted")
-    } catch (err) {
-        res.status(400).send("Asadero has not been deleted")
-    }
-}
-
-const getUsersFromAsadero = async (req, res) => {
-    try {
-        const asadero = await Asadero.findOne({
-            where: {
-                id: req.params.asaderoId
-            },
-            include: User
-        });
-        if(asadero.users){
-            return res.status(200).json(asadero.users)
-        }else{
-            return res.status(400).send(">> No users in the asadero.")
-        }
-    } catch (error) {
-        return res.status(500).send(">> Oops something went wrong.")
+        return res.status(500).send("Error to udpate the asadero.");
     }
 }
 
 const addUserToAsadero = async (req, res) => {
-    try {
-        const user_asadero = await User_Asadero.create({
-            userId: req.params.userId,
-            asaderoId: req.params.asaderoId,
-            isOwner: false,
-            isChef: req.body.isChef,
-        });
-        return res.status(200).json(user_asadero)
-    } catch (error) {
-        console.log(error)
-        return res.status(500).send(">> Oops something went wrong.")
-    }
-}
-
-const deleteUserFromAsadero = async (req, res) => {
-    try {
-        const user_asadero = await User_Asadero.findOne({
-            where: {
-              userId: req.params.userId,
-              asaderoId: req.params.asaderoId
-            }
-        });
-        await user_asadero.destroy();
-        return res.status(200).json(user_asadero)
-    } catch (error) {
-        return res.status(500).send(">> Oops something went wrong.")
-    }
-}
-
-const udpateUserFromAsadero = async (req, res) => {
     try {
         const user = await User.findOne({ where: { id: req.params.userId }})
         const asadero = await Asadero.findOne({where: { id: req.params.asaderoId }})
@@ -152,7 +124,33 @@ const udpateUserFromAsadero = async (req, res) => {
     }
 }
 
+const deleteAsadero = async (req, res) => {
+    try{
+        const asadero =  await Asadero.destroy({ where: {id: req.params.userId}} )
+        if(asadero){
+            return res.status(200).json("Asadero deleted")
+        }else{
+            return res.status(400).send('>> Asadero has not been deleted.')
+        }
+    } catch (err) {
+        return res.status(500).send(">> Asadero has not been deleted.")
+    }
+}
 
+const deleteUserFromAsadero = async (req, res) => {
+    try {
+        const user_asadero = await User_Asadero.findOne({
+            where: {
+                asaderoId: req.params.asaderoId,
+                userId: req.params.userId
+            }
+        })
+        await user_asadero.destroy();
+        return res.status(200).json('User has been deleted.')
+    } catch (error) {
+        return res.status(500).send(">> Oops something went wrong.")
+    }
+}
 
 module.exports = {
     getAllAsaderos,
@@ -163,7 +161,6 @@ module.exports = {
     getUsersFromAsadero,
     addUserToAsadero,
     deleteUserFromAsadero,
-    udpateUserFromAsadero,
     getAllMyAsaderos,
     getOneMyAsadero
 };
