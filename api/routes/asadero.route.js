@@ -9,7 +9,8 @@ const {
     deleteAsadero, 
     getUsersFromAsadero, 
     addUserToAsadero, 
-    deleteUserFromAsadero 
+    deleteUserFromAsadero,
+    rejectUsersFromAsadero
 } = require("../controllers/asadero.controller.js");
 const { checkOwner, checkAuth, checkAdmin } = require("../middleware/auth");
 
@@ -21,6 +22,7 @@ router.get("/:asaderoId/users", checkAuth, getUsersFromAsadero) // ALL USERS INV
 
 router.post('/', checkAuth, createAsadero)
 router.put("/:asaderoId/user/:userId", checkAuth, addUserToAsadero)
+router.put('/:asaderoId/close/', checkAuth, rejectUsersFromAsadero)
 router.put('/:asaderoId', checkAuth, checkOwner, updateAsadero)
 router.delete('/:asaderoId', checkAuth, checkOwner, deleteAsadero) 
 router.delete("/:asaderoId/user/:userId",  deleteUserFromAsadero);

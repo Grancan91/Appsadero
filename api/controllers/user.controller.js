@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const Asadero = require("../models/asadero.model")
+const User_Asadero = require('../models/user_asadero.model')
 
 const getAllProfiles = async (req, res) =>  {
   try {
@@ -137,6 +138,26 @@ const deleteFriend = async (req, res) => {
   }
 }
 
+const payAsadero = async (req, res) => {
+  try {
+      const user = res.locals.user
+      const asadero = await Asadero.findByPk(req.params.asaderoId)
+      await User_Asadero.update(
+          { status: 'paid' },
+          { where: { 
+            asaderoId: asadero.id, 
+            userId: user.id,
+            status: 'pending' } }
+      );
+      return res.status(200).json('Great! You paid!')
+  } catch (error) {
+      console.log(error)
+      return res.status(500).send(">> Oops something went wrong.")
+  }
+}
+
+
+
 //ejemplo
 module.exports = {
   getAllProfiles,
@@ -147,5 +168,6 @@ module.exports = {
   deleteFriend,
   getAllFriends,
   getOneFriend,
+  payAsadero
   
 };
