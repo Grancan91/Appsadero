@@ -6,6 +6,7 @@ const Product = require('../api/models/product.model')
 const Cart = require('../api/models/cart.model')
 const Allergy = require('../api/models/allergy.model')
 const Product_Cart = require('../api/models/products_carts.model')
+const User_Asadero = require('../api/models/user_asadero.model')
 
 const initRelationships = () => {
 
@@ -29,8 +30,8 @@ const initRelationships = () => {
     User.belongsToMany(User, { through: 'Friends', as: 'friend', onDelete: "cascade", })
 
     // User -> Asadero
-    User.belongsToMany(Asadero, { through: 'users_asaderos' })
-    Asadero.belongsToMany(User, { through: 'users_asaderos' })
+    User.belongsToMany(Asadero, { through: User_Asadero })
+    Asadero.belongsToMany(User, { through: User_Asadero })
 
     // Asadero -> ShoppingCart
     Asadero.hasOne(Cart)
@@ -41,7 +42,7 @@ const initRelationships = () => {
     Cart.belongsToMany(Product, { through: Product_Cart })
 
     //Asadero -> Places
-    Asadero.hasMany(Place)
+    Asadero.hasOne(Place)
     Place.belongsTo(Asadero)
 
 }
