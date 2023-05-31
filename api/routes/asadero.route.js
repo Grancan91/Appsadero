@@ -19,7 +19,6 @@ router.get('/myAsaderos', checkAuth, getAllMyAsaderos) // ALL ASADEROS WHERE USE
 router.get("/:asaderoId", checkAuth, checkAdmin, getOneAsadero) // ONLY ADMIN
 router.get('/myAsaderos/:asaderoId', checkAuth, getOneMyAsadero) // ONE ASADERO WHERE USER IS IN
 router.get("/:asaderoId/users", checkAuth, getUsersFromAsadero) // ALL USERS INVITED
-
 router.post('/', checkAuth, createAsadero)
 router.put("/:asaderoId/user/:userId", checkAuth, addUserToAsadero)
 router.put('/:asaderoId/close/', checkAuth, rejectUsersFromAsadero)

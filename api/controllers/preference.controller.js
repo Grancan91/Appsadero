@@ -10,18 +10,38 @@ const getAllPreferences = async (req, res) => {
     }
 }
 
+
+const getAllProductsForPreferences = async (req, res) => {
+  try {
+    const preferences = await Preference.findAll({
+      attributes: ['id', 'name'],
+      include: {
+        model: Product,
+        as: 'products',
+        attributes: ['id', 'name'],
+      },
+    });
+
+    return res.status(200).json(preferences);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Oops, something went wrong.");
+  }
+}
+/*
 const getAllProductsForPreferences = async (req, res) => {
     try {
         const preference = await Preference.findAll(
             {attributes: ['id', 'name']}
         )
-        const product = await Preference.getProducts(product)
-        return res.status(200).json(preference)
+        const product = await preference.getProducts(product)
+        return res.status(200).json(product)
     } catch (error) {
+        console.log(error)
         return res.status(500).send(">> Oops something went wrong.");
     }
 }
-
+*/
 const getOnePreference = async (req, res) => {
     try {
         const preference = await Preference.findByPk(req.params.preferenceId)

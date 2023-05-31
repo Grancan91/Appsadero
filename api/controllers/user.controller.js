@@ -107,13 +107,13 @@ const addFriend = async (req, res) => {
             email: friend.email
           });
         } else {
-          return res.status(400).send(`>> User with ID ${friends.id} is already a friend`);
+          return res.status(400).send(`>> User is already a friend.`);
         }
       } else {
-        return res.status(404).send(`>> Friend with ID ${friends.id} not found`);
+        return res.status(404).send(`>> Friend not found.`);
       }
     }
-      return res.status(500).send('>> Cannot be your own friend in this DB');   
+      return res.status(500).send('>> Cannot be your own friend in this DB.');   
   } catch (error) {
     return res.status(500).send('>> An error occurred while adding a friend');
   }

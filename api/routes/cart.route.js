@@ -18,6 +18,6 @@ router.post("/", checkAuth, checkAdmin, createCart) // ONLY admin can create a c
 //router.put("/:cartId", checkAuth, updateCart)
 router.put('/:cartId/product/:productId', checkAuth, addProductsToCart)
 router.delete("/:cartId", checkAuth, checkAdmin, deleteCart) // ONLY ADMIN
-router.delete('/:cartId/product/:productId', checkAuth, checkOwner, deleteProductFromCart)
+router.delete('/:cartId/product/:productId', checkAuth, deleteProductFromCart)
 
 module.exports = router

@@ -32,7 +32,7 @@ const createAllergy = async (req, res) => {
 const bulkCreateAllergy  = async (req, res) => {
     try {
         const allergies = await Allergy.bulkCreate(req.body)
-        if(preferences){
+        if(allergies){
             return res.status(200).json('Allergies created.')
         }
     } catch (error) {
