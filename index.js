@@ -1,5 +1,4 @@
 require('dotenv').config();
-const cors = require('cors')
 const morgan = require('morgan')
 const express = require('express');
 const sequelize = require('./db/index');
@@ -12,14 +11,13 @@ const dbConection = async () => {
         await sequelize.authenticate()
         console.log('>> Connection has been established successfully')
         initRelationships()
-        await sequelize.sync({ }); //  {force: true} {alter: true}
+        await sequelize.sync(); //  {force: true} {alter: true}
         console.log('>> Models synchronized')
     } catch (error) {
         console.log(error)
         throw new Error('>> Database connection error');
     }
 }
-
 
 const expressListener = async () => {
     try {
@@ -30,12 +28,10 @@ const expressListener = async () => {
         await app.listen(process.env.PORT)
         console.log('>> Appsadero is running!')
         await dbConection();
-
     } catch (error) {
         console.log(error)
         throw new Error('>> Connection error')
     }
-
 }
 
 expressListener();
