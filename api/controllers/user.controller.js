@@ -4,7 +4,7 @@ const User_Asadero = require('../models/user_asadero.model')
 
 const getAllProfiles = async (req, res) =>  {
   try {
-    const user = await User.findAll({ attributes: ['id', 'first_name', 'last_name', 'email'] })
+    const user = await User.findAll({ attributes: ['id', 'first_name', 'nickname', 'email'] })
     return res.status(200).json(user)
      
   } catch (error) {
@@ -63,7 +63,7 @@ const getAllFriends = async (req, res) => {
   try {
     const user = res.locals.user;
     const friends = await user.getFriend(
-    { attributes: ['id', 'first_name', 'last_name', 'email'] })
+    { attributes: ['id', 'first_name', 'nickname', 'email'] })
     res.status(200).json(friends);
   } catch (error) {
     return res.status(500).send(">> Oops, something went wrong. Maybe this user doesn't have any friends yet.");
@@ -81,7 +81,7 @@ const getOneFriend = async (req, res) => {
     await user.getFriend()
     return res.status(200).json({
       first_name: friend.first_name,
-      last_name: friend.last_name,
+      nickname: friend.nickname,
       email: friend.email
     })
   } catch (error) {
@@ -103,7 +103,7 @@ const addFriend = async (req, res) => {
           await user.addFriend(friend);
           return res.status(200).json({
             first_name: friend.first_name,
-            last_name: friend.last_name,
+            nickname: friend.nickname,
             email: friend.email
           });
         } else {
