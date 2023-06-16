@@ -4,9 +4,9 @@ const morgan = require('morgan')
 const express = require('express');
 const sequelize = require('./db/index');
 const { initRelationships } = require('./db/relationships');
-
+const cors = require('cors')
 const app = express();
-
+const morgan = require('morgan')
 const router = require('./api/routes/index');
 
 const dbConection = async () => {

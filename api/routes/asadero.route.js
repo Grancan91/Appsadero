@@ -10,15 +10,17 @@ const {
     getUsersFromAsadero, 
     addUserToAsadero, 
     deleteUserFromAsadero,
-    rejectUsersFromAsadero
+    rejectUsersFromAsadero,
+    getMyOwnAsaderos
 } = require("../controllers/asadero.controller.js");
 const { checkOwner, checkAuth, checkAdmin } = require("../middleware/auth");
 
+router.get('/myOwnAsaderos', checkAuth, getMyOwnAsaderos) // ALL ASADEROS I OWN
 router.get('/', checkAuth,checkAdmin, getAllAsaderos) // ONLY ADMIN
-router.get('/myAsaderos', checkAuth, getAllMyAsaderos) // ALL ASADEROS WHERE USER IS IN
+router.get('/myAsaderos',checkAuth, getAllMyAsaderos) // ALL ASADEROS WHERE USER IS IN
+router.get("/:asaderoId/users", checkAuth, getUsersFromAsadero) // ALL USERS INVITED
 router.get("/:asaderoId", checkAuth, checkAdmin, getOneAsadero) // ONLY ADMIN
 router.get('/myAsaderos/:asaderoId', checkAuth, getOneMyAsadero) // ONE ASADERO WHERE USER IS IN
-router.get("/:asaderoId/users", checkAuth, getUsersFromAsadero) // ALL USERS INVITED
 router.post('/', checkAuth, createAsadero)
 router.put("/:asaderoId/user/:userId", checkAuth, addUserToAsadero)
 router.put('/:asaderoId/close/', checkAuth, rejectUsersFromAsadero)
