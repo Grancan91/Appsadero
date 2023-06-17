@@ -3,7 +3,7 @@ const { getAllProfiles, getOneProfile, updateProfile, deleteProfile, payAsadero}
 const { checkAuth } = require("../middleware/auth");
 
 router.get('/', checkAuth, getAllProfiles)
-router.get('/:email', checkAuth , getOneProfile);
+router.get('/:nickname', checkAuth , getOneProfile);
 router.put("/:userId", checkAuth, updateProfile);//checkId
 router.put('/asadero/:asaderoId/pay/', checkAuth, payAsadero)
 router.delete('/:userId', checkAuth, deleteProfile)//checkId
