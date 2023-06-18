@@ -24,13 +24,20 @@ const signUp = async (req, res) => {
 const logIn = async(req, res) => {
     try{
         const user = await User.findOne({where: {email: req.body.email} })
-
+        const userDetails = {
+            token: '',
+            first_name: '',
+            nickname: '',
+        }
         if(user){
             bcrypt.compare(req.body.password, user.password, (err, result) => {
                 if(!err){
                     //REMEMBER CHANGE EXPIRATES SESSION 
                     const token = jwt.sign({email: user.email}, process.env.JWT_SECRET, {expiresIn: '1y'})
-                    return res.status(200).json({token});
+                    userDetails.token = token
+                    userDetails.first_name = user.first_name  
+                    userDetails.nickname = user.nickname    
+                    return res.status(200).json({userDetails});
                 }
                 return res.status(400).send(">> Oops something went wrong, user or password incorrect.")
             })
