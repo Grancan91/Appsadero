@@ -2,6 +2,8 @@ const Asadero = require("../models/asadero.model");
 const User = require("../models/user.model");
 const Cart = require("../models/cart.model");
 const User_Asadero = require("../models/user_asadero.model");
+const { Op } = require("sequelize");
+const sequelize = require("../../db");
 
 const getAllAsaderos = async (req, res) => {
   try {
@@ -93,6 +95,28 @@ const getUsersFromAsadero = async (req, res) => {
     return res.status(500).send(">> Oops something went wrong.");
   }
 };
+
+const getSharedAsaderos = async (req, res) => {
+  try {
+    const userId1 = req.params.userId1
+    const userId2 = req.params.userId2
+
+    const sharedAsaderos = await User_Asadero.findAll({
+      where:{
+        [Op.and]: [
+          { userId1: userId1 },
+          { asaderoId: { [Op.in]: sequelize.literal(`SELECT asaderoId FROM user_asaderos WHERE userId2 = ${userId2};`)} }
+        ]
+      }
+    })
+    //if(sharedAsaderos)
+    console.log('response' + sharedAsaderos)
+    return res.status(200).json(sharedAsaderos)   
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send(">> Oops something went wrong.");
+  }
+}
 
 const createAsadero = async (req, res) => {
   try {
@@ -205,4 +229,5 @@ module.exports = {
   getOneMyAsadero,
   rejectUsersFromAsadero,
   getMyOwnAsaderos,
+  getSharedAsaderos,
 };
