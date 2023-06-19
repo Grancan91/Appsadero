@@ -15,8 +15,8 @@ const getAllProfiles = async (req, res) =>  {
 
 const getOneProfile = async (req, res) =>  {
     try{
-        const user = await User.findOne({ where: {email: req.params.email} })
-        return res.status(200).json({id: user.id, first_name: user.first_name})
+        const user = await User.findOne({ where: {nickname: req.params.nickname} })
+        return res.status(200).json({id: user.id, first_name: user.first_name, nickname: user.nickname})
     }catch{
         return res.status(400).send(">> This user isn't in our Database");
     }
@@ -119,6 +119,36 @@ const addFriend = async (req, res) => {
   }
 };
 
+const addFriendByNickname = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const friends = req.body.nickname
+
+    if (friends !== user.nickname) {
+    const friend = await User.findOne({where: { nickname: req.body.nickname}})
+      if (friend) {
+        const isAlreadyFriend = await user.hasFriend(friend);
+        if (!isAlreadyFriend) {
+          await user.addFriend(friend);
+          return res.status(200).json({
+            first_name: friend.first_name,
+            nickname: friend.nickname,
+            email: friend.email
+          });
+        } else {
+          return res.status(400).send(`>> User is already a friend.`);
+        }
+      } else {
+        return res.status(404).send(`>> Friend not found.`);
+      }
+    }
+      return res.status(500).send('>> Cannot be your own friend in this DB.');   
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send('>> An error occurred while adding a friend');
+  }
+};
+
 
 
 const deleteFriend = async (req, res) => {
@@ -165,6 +195,7 @@ module.exports = {
   updateProfile,
   deleteProfile,
   addFriend,
+  addFriendByNickname,
   deleteFriend,
   getAllFriends,
   getOneFriend,
