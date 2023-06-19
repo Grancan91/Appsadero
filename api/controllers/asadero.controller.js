@@ -81,6 +81,9 @@ const getUsersFromAsadero = async (req, res) => {
           id: user.id,
           first_name: user.first_name,
           email: user.email,
+          status: user.user_asadero.status,
+          isOwner: user.user_asadero.isOwner,
+          isChef: user.user_asadero.isChef,
         })),
       });
     } else {

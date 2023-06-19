@@ -6,7 +6,6 @@ const sequelize = require('./db/index');
 const { initRelationships } = require('./db/relationships');
 const app = express();
 const router = require('./api/routes/index');
-const cors = require('cors')
 
 const dbConection = async () => {
     try {
