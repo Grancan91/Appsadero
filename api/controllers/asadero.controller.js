@@ -111,7 +111,6 @@ const getSharedAsaderos = async (req, res) => {
     const asaderos2 = (user2.asaderos).map((el) => `${el.name} - ${el.date_time}`)
     
     const shared = asaderos1.filter((el) =>{
-      // el.date_time
       return asaderos2.includes(el)
     })
     const sharedSet = new Set(shared)
@@ -122,24 +121,6 @@ const getSharedAsaderos = async (req, res) => {
     // console.log(result)
 
     return res.status(200).json(result);  
-
-    /*
-    const userId1 = req.params.userId1
-    const userId2 = req.params.userId2
-
-    const sharedAsaderos = await User_Asadero.findAll({
-      where:{
-        [Op.and]: [
-          { userId1: userId1 },
-          { asaderoId: { [Op.in]: sequelize.literal(`SELECT asaderoId FROM user_asaderos WHERE userId2 = ${userId2};`)} }
-        ]
-      }
-    })
-    //if(sharedAsaderos)
-    console.log('response' + sharedAsaderos)
-    return res.status(200).json(sharedAsaderos)   
-
-    */
   } catch (error) {
     console.log(error)
     return res.status(500).send(">> Oops something went wrong.");
@@ -190,7 +171,7 @@ const addUserToAsadero = async (req, res) => {
     const asadero = await Asadero.findOne({
       where: { id: req.params.asaderoId },
     });
-    await user.setAsaderos([asadero], {
+    await asadero.addUser([user], {
       through: {
         isChef: req.body.isChef,
         status: req.body.status,
@@ -198,6 +179,7 @@ const addUserToAsadero = async (req, res) => {
     });
     return res.status(200).json(asadero);
   } catch (error) {
+    console.log(error)
     return res.status(500).send(">> Oops something went wrong.");
   }
 };
