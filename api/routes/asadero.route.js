@@ -22,7 +22,7 @@ router.get('/myAsaderos',checkAuth, getAllMyAsaderos) // ALL ASADEROS WHERE USER
 router.get("/:asaderoId/users", checkAuth, getUsersFromAsadero) // ALL USERS INVITED
 router.get("/:asaderoId", checkAuth, checkAdmin, getOneAsadero) // ONLY ADMIN
 router.get('/myAsaderos/:asaderoId', checkAuth, getOneMyAsadero) // ONE ASADERO WHERE USER IS IN
-router.get('/sharedAsaderos/:userId1/:userId2', checkAuth, getSharedAsaderos) // GET ASADEROS 2 PAX ARE SHARING
+router.get('/sharedAsaderos/:userId2', checkAuth, getSharedAsaderos) // GET ASADEROS 2 PAX ARE SHARING
 router.post('/', checkAuth, createAsadero)
 router.put("/:asaderoId/user/:userId", checkAuth, addUserToAsadero)
 router.put('/:asaderoId/close/', checkAuth, rejectUsersFromAsadero)

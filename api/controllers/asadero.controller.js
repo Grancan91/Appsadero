@@ -98,6 +98,32 @@ const getUsersFromAsadero = async (req, res) => {
 
 const getSharedAsaderos = async (req, res) => {
   try {
+
+    const user1 = await User.findByPk(res.locals.user.id, {
+      include: Asadero,
+    });
+
+    const user2 = await User.findByPk(req.params.userId2, {
+      include: Asadero
+    })
+
+    const asaderos1 = (user1.asaderos).map((el) => `${el.name} - ${el.date_time}`)
+    const asaderos2 = (user2.asaderos).map((el) => `${el.name} - ${el.date_time}`)
+    
+    const shared = asaderos1.filter((el) =>{
+      // el.date_time
+      return asaderos2.includes(el)
+    })
+    const sharedSet = new Set(shared)
+    const result = [...sharedSet]
+
+    // console.log('user1' + asaderos1)
+    // console.log('user2' + asaderos2) 
+    // console.log(result)
+
+    return res.status(200).json(result);  
+
+    /*
     const userId1 = req.params.userId1
     const userId2 = req.params.userId2
 
@@ -112,6 +138,8 @@ const getSharedAsaderos = async (req, res) => {
     //if(sharedAsaderos)
     console.log('response' + sharedAsaderos)
     return res.status(200).json(sharedAsaderos)   
+
+    */
   } catch (error) {
     console.log(error)
     return res.status(500).send(">> Oops something went wrong.");
