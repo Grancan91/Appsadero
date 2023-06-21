@@ -16,7 +16,7 @@ router.get("/:cartId/products", checkAuth, getAllProductsFromCart);
 router.get("/:cartId", checkAuth, getOneCart)
 router.post("/", checkAuth, checkAdmin, createCart) // ONLY admin can create a cart without creating first an asadero
 //router.put("/:cartId", checkAuth, updateCart)
-router.post('/:cartId/product/:productId', checkAuth, addProductsToCart)
+router.put('/:cartId/product/:productId', checkAuth, addProductsToCart)
 router.delete("/:cartId", checkAuth, checkAdmin, deleteCart) // ONLY ADMIN
 router.delete('/:cartId/product/:productId', checkAuth, deleteProductFromCart)
 
