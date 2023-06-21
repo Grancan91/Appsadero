@@ -25,10 +25,6 @@ const Asadero = sequelize.define("asadero", {
     type: DataTypes.DOUBLE,
     allowNull: true,
   },
-  comments: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
   confirmation_date: {
     type: DataTypes.DATEONLY,
     allowNull: false,
@@ -40,6 +36,11 @@ const Asadero = sequelize.define("asadero", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  isOpen: {
+    type: DataTypes.BOOLEAN,
+    allowNull:false,
+    defaultValue: true
+  }
 });
 
 module.exports = Asadero;

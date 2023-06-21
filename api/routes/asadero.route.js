@@ -12,7 +12,7 @@ const {
     deleteUserFromAsadero,
     rejectUsersFromAsadero,
     getMyOwnAsaderos,
-    getSharedAsaderos
+    getSharedAsaderos,
 } = require("../controllers/asadero.controller.js");
 const { checkOwner, checkAuth, checkAdmin } = require("../middleware/auth");
 
@@ -25,8 +25,8 @@ router.get('/myAsaderos/:asaderoId', checkAuth, getOneMyAsadero) // ONE ASADERO 
 router.get('/sharedAsaderos/:userId2', checkAuth, getSharedAsaderos) // GET ASADEROS 2 PAX ARE SHARING
 router.post("/:asaderoId/user/:userId", checkAuth, checkOwner, addUserToAsadero)
 router.post('/', checkAuth, createAsadero)
-router.put('/:asaderoId/close/', checkAuth, rejectUsersFromAsadero)
-router.put('/:asaderoId', checkAuth, checkOwner, updateAsadero)
+router.put('/:asaderoId/close/', checkAuth, checkOwner, rejectUsersFromAsadero)
+router.patch('/:asaderoId', checkAuth, checkOwner, updateAsadero)
 router.delete('/:asaderoId', checkAuth, checkOwner, deleteAsadero) 
 router.delete("/:asaderoId/user/:userId",  deleteUserFromAsadero);
 

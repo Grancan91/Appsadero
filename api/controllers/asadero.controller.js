@@ -98,34 +98,37 @@ const getUsersFromAsadero = async (req, res) => {
 
 const getSharedAsaderos = async (req, res) => {
   try {
-
     const user1 = await User.findByPk(res.locals.user.id, {
       include: Asadero,
     });
 
     const user2 = await User.findByPk(req.params.userId2, {
-      include: Asadero
-    })
+      include: Asadero,
+    });
 
-    const asaderos1 = (user1.asaderos).map((el) => `${el.name} - ${el.date_time}`)
-    const asaderos2 = (user2.asaderos).map((el) => `${el.name} - ${el.date_time}`)
-    
-    const shared = asaderos1.filter((el) =>{
-      return asaderos2.includes(el)
-    })
-    const sharedSet = new Set(shared)
-    const result = [...sharedSet]
+    const asaderos1 = user1.asaderos.map(
+      (el) => `${el.name} - ${el.date_time}`
+    );
+    const asaderos2 = user2.asaderos.map(
+      (el) => `${el.name} - ${el.date_time}`
+    );
+
+    const shared = asaderos1.filter((el) => {
+      return asaderos2.includes(el);
+    });
+    const sharedSet = new Set(shared);
+    const result = [...sharedSet];
 
     // console.log('user1' + asaderos1)
-    // console.log('user2' + asaderos2) 
+    // console.log('user2' + asaderos2)
     // console.log(result)
 
-    return res.status(200).json(result);  
+    return res.status(200).json(result);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send(">> Oops something went wrong.");
   }
-}
+};
 
 const createAsadero = async (req, res) => {
   try {
@@ -148,7 +151,7 @@ const createAsadero = async (req, res) => {
 const updateAsadero = async (req, res) => {
   try {
     const [asaderoExist, asadero] = await Asadero.update(req.body, {
-      returning: true,
+//      returning: true,
       where: {
         id: req.params.asaderoId,
       },
@@ -179,7 +182,7 @@ const addUserToAsadero = async (req, res) => {
     });
     return res.status(200).json(asadero);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send(">> Oops something went wrong.");
   }
 };
@@ -225,6 +228,7 @@ const rejectUsersFromAsadero = async (req, res) => {
     return res.status(500).send(">> Oops something went wrong.");
   }
 };
+
 
 module.exports = {
   getAllAsaderos,
