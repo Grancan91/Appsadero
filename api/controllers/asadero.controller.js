@@ -136,7 +136,7 @@ const createAsadero = async (req, res) => {
       await asadero.addUser(user.id, {
         through: { isOwner: true, isChef: false, status: "confirmed" },
       });
-      return res.status(200).json("Asadero created!");
+      return res.status(200).json(asadero);
     } else {
       return res.status(400).send(">> Oops something went wrong.");
     }
