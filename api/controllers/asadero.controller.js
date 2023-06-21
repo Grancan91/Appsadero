@@ -128,6 +128,7 @@ const getSharedAsaderos = async (req, res) => {
 }
 
 const createAsadero = async (req, res) => {
+  console.log(req.body)
   try {
     const asadero = await Asadero.create(req.body);
     const user = res.locals.user;
@@ -146,6 +147,7 @@ const createAsadero = async (req, res) => {
 };
 
 const updateAsadero = async (req, res) => {
+  console.log(req.body)
   try {
     const [asaderoExist, asadero] = await Asadero.update(req.body, {
       returning: true,
