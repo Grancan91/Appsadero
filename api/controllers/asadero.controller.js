@@ -131,6 +131,7 @@ const getSharedAsaderos = async (req, res) => {
 };
 
 const createAsadero = async (req, res) => {
+  console.log(req.body)
   try {
     const asadero = await Asadero.create(req.body);
     const user = res.locals.user;
@@ -139,7 +140,7 @@ const createAsadero = async (req, res) => {
       await asadero.addUser(user.id, {
         through: { isOwner: true, isChef: false, status: "confirmed" },
       });
-      return res.status(200).json("Asadero created!");
+      return res.status(200).json(asadero);
     } else {
       return res.status(400).send(">> Oops something went wrong.");
     }
@@ -149,6 +150,7 @@ const createAsadero = async (req, res) => {
 };
 
 const updateAsadero = async (req, res) => {
+  console.log(req.body)
   try {
     const [asaderoExist, asadero] = await Asadero.update(req.body, {
 //      returning: true,
