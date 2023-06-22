@@ -31,7 +31,7 @@ const logIn = async(req, res) => {
         }
         if(user){
             bcrypt.compare(req.body.password, user.password, (err, result) => {
-                if(!err){
+                if(result){
                     //REMEMBER CHANGE EXPIRATES SESSION 
                     const token = jwt.sign({email: user.email}, process.env.JWT_SECRET, {expiresIn: '1y'})
                     userDetails.token = token
